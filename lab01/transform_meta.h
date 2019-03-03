@@ -1,7 +1,7 @@
 #ifndef TRANSFORM_META_H_
 #define TRANSFORM_META_H_
 
-#include "vector.h"
+#include "vector3d.h"
 
 typedef enum {
 	TRANSLATION,
@@ -10,11 +10,11 @@ typedef enum {
 } transform_type_t;
 
 typedef struct {
-	vector_t displacement;
+	vector3d_t displacement;
 } translation_t;
 
 typedef struct {
-	vector_t axis;
+	vector3d_t axis;
 	double angle;
 } rotation_t;
 

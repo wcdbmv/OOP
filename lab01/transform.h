@@ -1,7 +1,6 @@
 #ifndef TRANSFORM_H_
 #define TRANSFORM_H_
 
-#include "vector.h"
 #include "transform_meta.h"
 
 typedef union {
@@ -16,5 +15,9 @@ typedef union {
 } transform_t;
 
 extern const transform_t identity;
+
+transform_t create_transform(const transform_meta_t *transform_meta);
+vector3d_t transform_vector3d(const transform_t *transform, const vector3d_t *vector3d);
+transform_t composition(const transform_t *a, const transform_t *b);
 
 #endif // TRANSFORM_H_
