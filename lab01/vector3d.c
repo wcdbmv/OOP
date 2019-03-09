@@ -1,29 +1,14 @@
 #include "vector3d.h"
 #include "read_common.h"
 
-const vector3d_t origin = {
-	0.0, 0.0, 0.0
-};
-
-const vector3d_t unit_x = {
-	1.0, 0.0, 0.0
-};
-
-const vector3d_t unit_y = {
-	0.0, 1.0, 0.0
-};
-
-const vector3d_t unit_z = {
-	0.0, 0.0, 1.0
-};
+const vector3d_t origin = {{0.0, 0.0, 0.0}};
+const vector3d_t unit_x = {{1.0, 0.0, 0.0}};
+const vector3d_t unit_y = {{0.0, 1.0, 0.0}};
+const vector3d_t unit_z = {{0.0, 0.0, 1.0}};
 
 vector3d_t create_vector3d(double x, double y, double z) {
-	vector3d_t vector3d = {x, y, z};
+	vector3d_t vector3d = {{x, y, z}};
 	return vector3d;
-}
-
-vector3d_t negate_vector3d(const vector3d_t *vector3d) {
-	return create_vector3d(-vector3d->x, -vector3d->y, -vector3d->z);
 }
 
 bool read_vector3d(vector3d_t *vector3d, FILE *file) {

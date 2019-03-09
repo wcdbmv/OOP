@@ -11,6 +11,8 @@ typedef union {
 	};
 } edge_t;
 
+int get_i_end(const edge_t *edge, int i);
+
 bool read_edge(edge_t *edge, FILE *file);
 bool read_edges(edge_t *edges, int n, FILE *file);
 void write_edge(const edge_t *edge, FILE *file);

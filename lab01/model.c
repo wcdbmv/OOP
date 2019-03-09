@@ -60,7 +60,7 @@ void write_model(const model_t *model, FILE *file) {
 	write_header(model, file);
 	fputs("\n\n", file);
 	write_vectors3d(model->vertices, model->n_vertices, file);
-	fputs("\n\n", file);
+	fputs("\n", file);
 	write_edges(model->edges, model->n_edges, file);
 	putc('\n', file);
 }
@@ -88,7 +88,13 @@ error_t dump_model(const model_t *model, const char *filename) {
 	return NONE;
 }
 
-void transform_model(const transform_t *transform, model_t *model) {
+error_t transform_model(model_t *model, const transform_meta_t *transform_meta) {
+	const transform_t transform = create_transform(transform_meta);
 	for (int i = 0; i != model->n_vertices; ++i)
-		model->vertices[i] = transform_vector3d(transform, &model->vertices[i]);
+		model->vertices[i] = transform_vector3d(&transform, &model->vertices[i]);
+	return NONE;
+}
+
+const vector3d_t *get_ij_vertex(const model_t *model, int i, int j) {
+	return &model->vertices[get_i_end(&model->edges[i], j)];
 }

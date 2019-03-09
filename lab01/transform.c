@@ -5,12 +5,12 @@
 #define SQR(x) (x) * (x)
 #define INIT_ZEROS 0.0
 
-const transform_t identity = {
-	1.0, 0.0, 0.0, 0.0,
-	0.0, 1.0, 0.0, 0.0,
-	0.0, 0.0, 1.0, 0.0,
-	0.0, 0.0, 0.0, 1.0
-};
+const transform_t identity = {{
+	{1.0, 0.0, 0.0, 0.0},
+	{0.0, 1.0, 0.0, 0.0},
+	{0.0, 0.0, 1.0, 0.0},
+	{0.0, 0.0, 0.0, 1.0}
+}};
 
 transform_t create_translation_transform(const vector3d_t *displacement) {
 	transform_t transform = identity;
@@ -82,12 +82,12 @@ vector3d_t transform_vector3d(const transform_t *transform, const vector3d_t *ve
 	double b[4] = {INIT_ZEROS};
 	for (int i = 0; i != 4; ++i)
 		for (int k = 0; k != 4; ++k)
-			b[i] += transform->m[i][k] * a[k];
-	return create_vector3d(b[0], b[1], b[2]);
+			b[i] += a[k] * transform->m[k][i];
+	return create_vector3d(b[0] / b[3], b[1] / b[3], b[2] / b[3]);
 }
 
 transform_t composition(const transform_t *a, const transform_t *b) {
-	transform_t c = {INIT_ZEROS};
+	transform_t c = {{{INIT_ZEROS}}};
 	for (int i = 0; i != 4; ++i)
 		for (int j = 0; j != 4; ++j)
 			for (int k = 0; k != 4; ++k)

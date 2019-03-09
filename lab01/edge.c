@@ -1,6 +1,10 @@
 #include "edge.h"
 #include "read_common.h"
 
+int get_i_end(const edge_t *edge, int i) {
+	return edge->m[i];
+}
+
 bool read_edge(edge_t *edge, FILE *file) {
 	return read_int(&edge->end1, file)
 	    && read_int(&edge->end2, file);
