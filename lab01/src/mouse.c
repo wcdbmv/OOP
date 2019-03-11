@@ -58,7 +58,7 @@ void hold(int x, int y) {
 	if ((dx || dy) && (mouse.left_button_pressed || mouse.right_button_pressed)) {
 		if (mouse.left_button_pressed) {
 			transform_meta.type = ROTATION;
-			const vector3d_t axis = create_vector3d(0.2 * dy, -0.2 * dx, 0.0);
+			const vector3d_t axis = create_vector3d(-0.1 * dy, 0.1 * dx, 0.0);
 			const double angle = 0.01;
 			const rotation_t rotation = {axis, angle};
 			transform_meta.rotation = rotation;
@@ -105,6 +105,7 @@ static inline __attribute__((always_inline)) unsigned char char_to_key(char c) {
 void tap(unsigned char key, int x, int y) {
 	if (glutGetModifiers() == GLUT_ACTIVE_CTRL) {
 		if (key  == char_to_key('r')) {
+			receive_delete();
 			receive_load();
 			glutPostRedisplay();
 		}

@@ -18,7 +18,7 @@ void perrmsg(error_t error) {
 	case ALLOC_FAIL:
 		perror("alloc fail");
 		break;
-	case UNKNOWN_COMMAND:
+	case WRONG_COMMAND:
 		fputs("command not found", stderr);
 		break;
 	}

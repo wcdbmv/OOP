@@ -1,18 +1,40 @@
-SRCS := $(wildcard *.c)
-OBJS := $(SRCS:.c=.o)
+BIN_DIR = bin
+INC_DIR = inc
+OBJ_DIR = obj
+SRC_DIR = src
+APP_EXE = wm3dv.exec
+
+RM := rm
+MKDIR := mkdir
+LOG_ERR := /dev/null
 
 CC := gcc
-CFLAGS := -std=c11 -Wall -pedantic -Wextra -Werror
-LDFLAGS := -lm -lGL -lGLU -lglut
+CFLAGS := -I$(INC_DIR) -std=c11 -Wall -pedantic -Wextra -Werror
+LDFLAGS := -lGL -lGLU -lglut -lm
 
-wm3dv: $(OBJS)
-	$(CC) $^ -o $@.exec $(LDFLAGS)
+SRC_EXT := c
 
-%.o: %.c %.h
-	$(CC) -c $< $(CFLAGS)
+SRCS := $(wildcard $(SRC_DIR)/*.$(SRC_EXT))
+OBJS := $(patsubst $(SRC_DIR)/%.$(SRC_EXT), $(OBJ_DIR)/%.o, $(SRCS))
+DIRS := $(OBJ_DIR) $(BIN_DIR)
 
-%.o: %.c
-	$(CC) -c $< $(CFLAGS)
+.PHONY: all dir clean
+
+all: dir $(BIN_DIR)/$(APP_EXE)
+
+$(BIN_DIR)/$(APP_EXE): $(OBJS)
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.$(SRC_EXT) $(INC_DIR)/%.h
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.$(SRC_EXT)
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+dir: $(DIRS)
+
+$(DIRS):
+	$(MKDIR) -p $@
 
 clean:
-	rm -f *.o wm3dv 2>/dev/null
+	$(RM) -rf $(DIRS) 2>$(LOG_ERR)

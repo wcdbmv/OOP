@@ -12,18 +12,20 @@ model_t create_model(int n_vertices, int n_edges) {
 
 bool alloc_model(model_t *model) {
 	assert(model->n_vertices >= 0 && model->n_edges >= 0);
+	bool ok = true;
 	if (model->n_vertices > 0) {
 		if (!(model->vertices = malloc(model->n_vertices * sizeof *model->vertices)))
-			return false;
-		if (model->n_edges > 0 && !(model->edges = malloc(model->n_edges * sizeof *model->edges))) {
+			ok = false;
+		else if (model->n_edges > 0 && !(model->edges = malloc(model->n_edges * sizeof *model->edges))) {
 			free(model->vertices);
-			return false;
+			ok = false;
 		}
-		return true;
+		else
+			ok = true;
 	}
 	else if (model->n_edges > 0)
-		return false;
-	return true;
+		ok = false;
+	return ok;
 }
 
 void delete_model(model_t *model) {
@@ -44,16 +46,19 @@ static inline __attribute__((always_inline)) void write_header(const model_t *mo
 }
 
 error_t read_model(model_t *model, FILE *file) {
-	if (unlikely(!read_header(model, file)))
-		return INVALID_FILE_FORMAT;
-	if (unlikely(!alloc_model(model)))
-		return ALLOC_FAIL;
-	if (likely(read_vectors3d(model->vertices, model->n_vertices, file)
-	        && read_edges(model->edges, model->n_edges, file))) {
-		return NONE;
+	error_t error = NONE;
+	if (read_header(model, file)) {
+		if (!alloc_model(model)) {
+			error = ALLOC_FAIL;
+		}
+		else if (!(read_vectors3d(model->vertices, model->n_vertices, file)
+		        && read_edges(model->edges, model->n_edges, file))) {
+			delete_model(model);
+			error = INVALID_FILE_FORMAT;
+		}
+			
 	}
-	delete_model(model);
-	return INVALID_FILE_FORMAT;
+	return error;
 }
 
 void write_model(const model_t *model, FILE *file) {

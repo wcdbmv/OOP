@@ -5,6 +5,8 @@
 #include "edge.h"
 #include "error.h"
 
+#define EMPTY_MODEL {NULL, NULL, 0, 0}
+
 typedef struct {
 	vector3d_t *vertices;
 	edge_t *edges;

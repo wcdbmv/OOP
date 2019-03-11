@@ -21,3 +21,7 @@ error_t receive_render(void) {
 	command_data_t command_data = {.screen = &screen};
 	return execute(RENDER_MODEL, &command_data);
 }
+
+error_t receive_delete(void) {
+	return execute(DELETE_MODEL, NULL);
+}

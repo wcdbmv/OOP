@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 
 	glutInit(&argc, argv);
 	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(900, 900);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 
 	glutCreateWindow("Wireframe model 3D viewer");
@@ -45,6 +45,8 @@ int main(int argc, char *argv[]) {
 	glutKeyboardFunc(tap);
 
 	glutMainLoop();
+
+	receive_delete();
 
 	return EXIT_SUCCESS;
 }

@@ -8,7 +8,8 @@ typedef enum {
 	LOAD_MODEL,
 	SAVE_MODEL,
 	TRANSFORM_MODEL,
-	RENDER_MODEL
+	RENDER_MODEL,
+	DELETE_MODEL
 } command_t;
 
 typedef union {

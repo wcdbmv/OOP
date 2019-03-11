@@ -7,7 +7,7 @@ typedef enum {
 	CANT_OPEN_FILE,
 	INVALID_FILE_FORMAT,
 	ALLOC_FAIL,
-	UNKNOWN_COMMAND
+	WRONG_COMMAND
 } error_t;
 
 void perrmsg(error_t error);
