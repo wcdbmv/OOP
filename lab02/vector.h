@@ -38,13 +38,13 @@ class Vector : public BaseVector {
   Vector<T>& operator*=(const T& factor);
   Vector<T>& operator/=(const T& factor);
 
-  template <typename U> friend Vector<U> operator-(const Vector<U>& a);
-  template <typename U> friend Vector<U> operator+(const Vector<U>& a, const Vector<U>& b);
-  template <typename U> friend Vector<U> operator-(const Vector<U>& a, const Vector<U>& b);
-  template <typename U> friend Vector<U> operator*(const Vector<U>& a, const U& factor);
-  template <typename U> friend Vector<U> operator*(const U& factor, const Vector<U>& a);
-  template <typename U> friend Vector<U> operator/(const Vector<U>& vector, const U& factor);
-  template <typename U> friend U operator*(const Vector<U>& a, const Vector<U>& b);
+//  template <typename U> friend Vector<U> operator-(const Vector<U>& a);
+//  template <typename U> friend Vector<U> operator+(const Vector<U>& a, const Vector<U>& b);
+//  template <typename U> friend Vector<U> operator-(const Vector<U>& a, const Vector<U>& b);
+//  template <typename U> friend Vector<U> operator*(const Vector<U>& a, const U& factor);
+//  template <typename U> friend Vector<U> operator*(const U& factor, const Vector<U>& a);
+//  template <typename U> friend Vector<U> operator/(const Vector<U>& vector, const U& factor);
+//  template <typename U> friend U operator*(const Vector<U>& a, const Vector<U>& b);
 
   Iterator<T> begin();
   Iterator<const T> begin() const;
@@ -83,9 +83,11 @@ Vector<T>::~Vector() { delete[] data_; }
 
 template<typename T>
 Vector<T>& Vector<T>::operator=(const Vector<T>& other) {
-  delete[] data_;
-  data_ = new T[size_ = other.size];
-  std::copy(other.begin(), other.end(), begin());
+  if (*this != other) {
+    delete[] data_;
+    data_ = new T[size_ = other.size];
+    std::copy(other.begin(), other.end(), begin());
+  }
   return *this;
 }
 
@@ -108,11 +110,15 @@ Vector<T>& Vector<T>::operator=(const std::initializer_list<T>& other) {
 
 template <typename T>
 T& Vector<T>::operator[](size_t i) {
+  if (i >= size_)
+    throw IndexOutOfRangeException();
   return data_[i];
 }
 
 template <typename T>
 const T& Vector<T>::operator[](size_t i) const {
+  if (i >= size_)
+    throw IndexOutOfRangeException();
   return data_[i];
 }
 

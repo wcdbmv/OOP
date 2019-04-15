@@ -40,6 +40,7 @@ class Iterator : public std::iterator<std::bidirectional_iterator_tag, T> {
 
   template <typename U> friend difference_type operator-(const Iterator<U>& a, const Iterator<U>& b);
   template <typename U> friend bool operator==(const Iterator<U>& a, const Iterator<U>& b);
+  template <typename U> friend void swap(Iterator<U>& a, Iterator<U>& b);
 private:
   T* ptr_;
 };
@@ -65,7 +66,7 @@ typename Iterator<T>::difference_type operator-(const Iterator<T>& a, const Iter
 }
 
 template <typename T>
-void swap(Iterator<T>& a, Iterator<T>& b) { std::swap(a.pos, b.pos); }
+void swap(Iterator<T>& a, Iterator<T>& b) { std::swap(a.ptr_, b.ptr_); }
 
 template <typename T>
 bool operator==(const Iterator<T>& a, const Iterator<T>& b) { return a.ptr_ == b.ptr_; }
