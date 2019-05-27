@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QCheckBox>
 #include <QVector>
+#include "elevator.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,9 +18,15 @@ public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
 
+signals:
+	void called(int floor);
+
 private slots:
 	void floorButtonClicked(int i);
-	void cabineButtonClicked(int i);
+	void cabButtonClicked(int i);
+
+	void stop(int floor);
+	void update_floor(int floor);
 
 private:
 	constexpr static int floors = 16;
@@ -27,15 +34,14 @@ private:
 	Ui::MainWindow *ui;
 
 	QVector<QCheckBox *> floor_buttons;
-	QVector<QCheckBox *> cabine_buttons;
+	QVector<QCheckBox *> cab_buttons;
+
+	Elevator elevator;
 
 private:
 	void createFloorButtons();
-	void createCabineButtons();
+	void createCabButtons();
 	void createButtons(QVector<QCheckBox *>& buttons, QLayout *layout, void(MainWindow::*slot)(int));
-
-private:
-	void log(const QString &string);
 };
 
 #endif // MAINWINDOW_H

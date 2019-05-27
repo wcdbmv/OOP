@@ -1,21 +1,26 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QTime>
 #include <functional>
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow),
 	floor_buttons(floors),
-	cabine_buttons(floors)
+	cab_buttons(floors),
+	elevator(floors, parent)
 {
 	ui->setupUi(this);
 
-	ui->plainTextEdit->setReadOnly(true);
+	ui->logger->setReadOnly(true);
+	elevator.set_logger(ui->logger);
 
 	createFloorButtons();
-	createCabineButtons();
+	createCabButtons();
+
+	connect(this, &MainWindow::called, &elevator, &Elevator::called);
+	connect(&elevator, &Elevator::stopped, this, &MainWindow::stop);
+	connect(&elevator, &Elevator::on_floor, this, &MainWindow::update_floor);
 }
 
 MainWindow::~MainWindow()
@@ -37,26 +42,38 @@ void MainWindow::createFloorButtons()
 	createButtons(floor_buttons, ui->floorsGroupBox->layout(), &MainWindow::floorButtonClicked);
 }
 
-void MainWindow::createCabineButtons()
+void MainWindow::createCabButtons()
 {
-	createButtons(cabine_buttons, ui->cabineGroupBox->layout(), &MainWindow::cabineButtonClicked);
-}
-
-void MainWindow::log(const QString &string)
-{
-	ui->plainTextEdit->appendPlainText(QTime::currentTime().toString("[hh:mm:ss] ") + string);
+	createButtons(cab_buttons, ui->cabGroupBox->layout(), &MainWindow::cabButtonClicked);
 }
 
 void MainWindow::floorButtonClicked(int i)
 {
-	log("Вызван лифт на " + QString::number(i + 1) + " этаже");
-
+	log(ui->logger, "Лифт вызван на " + QString::number(i + 1) + " этаж");
 	floor_buttons[i]->setEnabled(false);
+	emit called(i + 1);
 }
 
-void MainWindow::cabineButtonClicked(int i)
+void MainWindow::cabButtonClicked(int i)
 {
-	log("В кабине лифта нажали на " + QString::number(i + 1) + " этаж");
+	log(ui->logger, "В лифте нажата кнопка " + QString::number(i + 1) + " этажа");
+	cab_buttons[i]->setEnabled(false);
+	emit called(i + 1);
+}
 
-	cabine_buttons[i]->setEnabled(false);
+void uncheck(QCheckBox *checkbox)
+{
+	checkbox->setChecked(false);
+	checkbox->setEnabled(true);
+}
+
+void MainWindow::stop(int floor)
+{
+	uncheck(floor_buttons[floor - 1]);
+	uncheck(cab_buttons[floor - 1]);
+}
+
+void MainWindow::update_floor(int floor)
+{
+	ui->lcdNumber->display(floor);
 }

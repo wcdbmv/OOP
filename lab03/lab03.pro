@@ -25,10 +25,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    elevator.cpp \
+    controlpanel.cpp \
+    elevatorcab.cpp \
+    elevatorcabdoors.cpp \
+    logger.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    elevator.h \
+    controlpanel.h \
+    elevatorcab.h \
+    elevatorcabdoors.h \
+    logger.h \
+    direction.h
 
 FORMS += \
         mainwindow.ui
