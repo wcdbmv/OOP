@@ -30,7 +30,8 @@ SOURCES += \
     controlpanel.cpp \
     elevatorcab.cpp \
     elevatorcabdoors.cpp \
-    logger.cpp
+    logger.cpp \
+    direction.cpp
 
 HEADERS += \
         mainwindow.h \

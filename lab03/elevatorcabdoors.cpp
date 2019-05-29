@@ -29,12 +29,12 @@ void ElevatorCabDoors::start_opening()
 {
 	if (state == State::closed || state == State::closing) {
 		log(logger, "Двери открываются");
-		state = State::opening;
 		int time_to_start = TIME_TO_SWITCH;
 		if (state == State::closing) {
 			time_to_start -= close_timer.remainingTime();
 			close_timer.stop();
 		}
+		state = State::opening;
 		open_timer.start(time_to_start);
 	}
 }

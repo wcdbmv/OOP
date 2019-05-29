@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	connect(this, &MainWindow::called, &elevator, &Elevator::called);
 	connect(&elevator, &Elevator::stopped, this, &MainWindow::stop);
-	connect(&elevator, &Elevator::on_floor, this, &MainWindow::update_floor);
+	connect(&elevator, &Elevator::passed_floor, this, &MainWindow::update_floor);
 }
 
 MainWindow::~MainWindow()
@@ -49,16 +49,14 @@ void MainWindow::createCabButtons()
 
 void MainWindow::floorButtonClicked(int i)
 {
-	log(ui->logger, "Лифт вызван на " + QString::number(i + 1) + " этаж");
 	floor_buttons[i]->setEnabled(false);
-	emit called(i + 1);
+	emit called(i);
 }
 
 void MainWindow::cabButtonClicked(int i)
 {
-	log(ui->logger, "В лифте нажата кнопка " + QString::number(i + 1) + " этажа");
 	cab_buttons[i]->setEnabled(false);
-	emit called(i + 1);
+	emit called(i);
 }
 
 void uncheck(QCheckBox *checkbox)
@@ -69,11 +67,11 @@ void uncheck(QCheckBox *checkbox)
 
 void MainWindow::stop(int floor)
 {
-	uncheck(floor_buttons[floor - 1]);
-	uncheck(cab_buttons[floor - 1]);
+	uncheck(floor_buttons[floor]);
+	uncheck(cab_buttons[floor]);
 }
 
 void MainWindow::update_floor(int floor)
 {
-	ui->lcdNumber->display(floor);
+	ui->lcdNumber->display(floor + 1);
 }

@@ -21,7 +21,7 @@ public:
 
 	void set_logger(Logger *logger);
 
-signals:
+signals: // out
 	void closed();
 	void opened();
 
@@ -35,11 +35,12 @@ private slots:
 
 private:
 	State state;
-	Logger *logger;
-
 	QTimer open_timer;
 	QTimer hold_timer;
 	QTimer close_timer;
+
+private:
+	Logger *logger;
 
 private:
 	constexpr static int TIME_TO_SWITCH = 500;

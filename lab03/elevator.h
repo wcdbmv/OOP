@@ -14,15 +14,18 @@ public:
 
 	void set_logger(Logger *logger);
 
-signals:
+signals: // in
 	void called(int floor);
+
+signals: // out
 	void stopped(int floor);
-	void on_floor(int floor);
+	void passed_floor(int floor);
 
 private:
-	const int floors;
 	ControlPanel control;
 	ElevatorCab cab;
+
+private:
 	Logger *logger;
 };
 

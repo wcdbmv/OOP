@@ -25,6 +25,7 @@ private slots:
 	void floorButtonClicked(int i);
 	void cabButtonClicked(int i);
 
+private slots:
 	void stop(int floor);
 	void update_floor(int floor);
 

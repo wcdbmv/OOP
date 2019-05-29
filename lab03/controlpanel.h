@@ -10,10 +10,10 @@ class ControlPanel : public QObject
 {
 	Q_OBJECT
 
-public:
 	enum class State {
 		idle,
-		busy
+		busy,
+		waiting
 	};
 
 public:
@@ -21,27 +21,35 @@ public:
 
 	void set_logger(Logger *logger);
 
-signals:
-	void called(int floor);
-	void stopped();
-	void on_floor(int floor);
+signals: // in
+	void move_up();
+	void move_down();
+	void stop();
+	void called(Direction direction);
+
+signals: // out
+	void passed_floor(int floor);
+	void stopped(int floor);
 
 public slots:
 	void call(int floor);
-	void reach_target_floor(int floor);
-	void pass_floor(int floor, Direction direction);
+	void pass_floor();
+	void look_around();
 
 private:
+	State state;
+
 	const int floors;
 	int floor;
+
 	QVector<bool> is_target;
-	State state;
 	Direction direction;
+
+private:
 	Logger *logger;
 
 private:
-	bool update_target(int &floor);
-	bool search_target(int &floor, int direction);
+	int next_target() const;
 };
 
 #endif // CONTROLPANEL_H

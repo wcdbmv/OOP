@@ -10,9 +10,11 @@ class ElevatorCab : public QObject
 	Q_OBJECT
 
 	enum class State {
-		moving,
+		standing,
 		calling,
-		standing
+		ready,
+		moving_up,
+		moving_down
 	};
 
 public:
@@ -20,27 +22,30 @@ public:
 
 	void set_logger(Logger *logger);
 
-signals:
+signals: // in
 	void called();
-	void passed_floor(int floor, Direction direction);
-	void reached_target_floor(int floor);
-	void stopped(int floor);
+	void stopped();
+
+signals: // out
+	void passed_floor();
+	void ready();
 
 public slots:
-	void move();
+	void move_up();
+	void move_down();
+	void start_moving();
 	void stop();
-	void call(int floor);
-	void reset_direction();
+	void call(Direction direction);
 
 private:
-	int floor;
-	int target;
 	State state;
-	Direction direction;
 	ElevatorCabDoors doors;
-	Logger *logger;
+	Direction direction;
+	QTimer up_floor_timer;
+	QTimer down_floor_timer;
 
-	QTimer pass_floor_timer;
+private:
+	Logger *logger;
 
 private:
 	constexpr static int TIME_TO_PASS_FLOOR = 1000;

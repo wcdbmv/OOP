@@ -4,20 +4,21 @@
 
 ElevatorCab::ElevatorCab(QObject *parent, Logger *logger)
 	: QObject(parent)
-	, floor(1)
-	, target(1)
 	, state(State::standing)
-	, direction(Direction::stay)
 	, doors(parent, logger)
+	, direction(Direction::stay)
 	, logger(logger)
 {
-	pass_floor_timer.setInterval(TIME_TO_PASS_FLOOR);
-	pass_floor_timer.setSingleShot(true);
+	up_floor_timer.setInterval(TIME_TO_PASS_FLOOR);
+	up_floor_timer.setSingleShot(true);
+
+	down_floor_timer.setInterval(TIME_TO_PASS_FLOOR);
+	down_floor_timer.setSingleShot(true);
 
 	connect(this, &ElevatorCab::called, &doors, &ElevatorCabDoors::start_closing);
-	connect(&doors, &ElevatorCabDoors::closed, this, &ElevatorCab::move);
-	connect(&pass_floor_timer, &QTimer::timeout, this, &ElevatorCab::move);
-	connect(this, &ElevatorCab::reached_target_floor, this, &ElevatorCab::stop);
+	connect(&doors, &ElevatorCabDoors::closed, this, &ElevatorCab::start_moving);
+	connect(&up_floor_timer, &QTimer::timeout, this, &ElevatorCab::passed_floor);
+	connect(&down_floor_timer, &QTimer::timeout, this, &ElevatorCab::passed_floor);
 	connect(this, &ElevatorCab::stopped, &doors, &ElevatorCabDoors::start_opening);
 }
 
@@ -27,54 +28,61 @@ void ElevatorCab::set_logger(Logger *logger)
 	doors.set_logger(logger);
 }
 
-void ElevatorCab::move()
+void ElevatorCab::move_up()
+{
+	if (state == State::ready || state == State::moving_up) {
+		state = State::moving_up;
+
+		log(logger, "Лифт поднимается");
+		up_floor_timer.start();
+	}
+}
+
+void ElevatorCab::move_down()
+{
+	if (state == State::ready || state == State::moving_down) {
+		state = State::moving_down;
+
+		log(logger, "Лифт опускается");
+		down_floor_timer.start();
+	}
+}
+
+void ElevatorCab::start_moving()
 {
 	if (state == State::calling) {
-		if (floor == target) {
-			emit reached_target_floor(floor);
+		state = State::ready;
+
+		if (direction == Direction::up) {
+			log(logger, "Лифт поднимается");
+			up_floor_timer.start();
 		}
-		else {
-			state = State::moving;
-			emit passed_floor(floor, direction);
-			pass_floor_timer.start();
+		else if (direction == Direction::down) {
+			log(logger, "Лифт опускается");
+			down_floor_timer.start();
 		}
 	}
-	else if (state == State::moving) {
-		floor += direction == Direction::up ? 1 : -1;
-		if (floor == target) {
-			emit reached_target_floor(floor);
-		}
-		else {
-			pass_floor_timer.start();
-			emit passed_floor(floor, direction);
-		}
-
+	else if (state == State::standing) {
+		emit ready();
 	}
 }
 
 void ElevatorCab::stop()
 {
-	if (direction != Direction::stay)
-		log(logger, "Лифт остановился на " + QString::number(floor) + " этаже");
-	state = State::standing;
-	pass_floor_timer.stop();
-	emit stopped(floor);
+	up_floor_timer.stop();
+	down_floor_timer.stop();
+
+	if (state != State::standing) {
+		state = State::standing;
+		emit stopped();
+	}
 }
 
-void ElevatorCab::call(int floor)
+void ElevatorCab::call(Direction direction)
 {
-	state = State::calling;
-	target = floor;
-	if (this->floor == target) {
-		emit reached_target_floor(floor);
-	}
-	else {
-		direction = this->floor < target ? Direction::up : Direction::down;
+	if (state == State::standing) {
+		this->direction = direction;
+		state = State::calling;
 		emit called();
 	}
-}
-
-void ElevatorCab::reset_direction()
-{
-	direction = Direction::stay;
 }
