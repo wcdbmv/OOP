@@ -8,8 +8,7 @@ Elevator::Elevator(int floors, QObject *parent, Logger *logger)
 {
 	connect(this, &Elevator::called, &control, &ControlPanel::call);
 	connect(&control, &ControlPanel::called, &cab, &ElevatorCab::call);
-	connect(&control, &ControlPanel::move_up, &cab, &ElevatorCab::move_up);
-	connect(&control, &ControlPanel::move_down, &cab, &ElevatorCab::move_down);
+	connect(&control, &ControlPanel::move, &cab, &ElevatorCab::move);
 	connect(&control, &ControlPanel::stop, &cab, &ElevatorCab::stop);
 	connect(&cab, &ElevatorCab::passed_floor, &control, &ControlPanel::pass_floor);
 	connect(&cab, &ElevatorCab::ready, &control, &ControlPanel::look_around);

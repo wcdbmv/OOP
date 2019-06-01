@@ -12,9 +12,7 @@ class ElevatorCab : public QObject
 	enum class State {
 		standing,
 		calling,
-		ready,
-		moving_up,
-		moving_down
+		moving
 	};
 
 public:
@@ -31,9 +29,7 @@ signals: // out
 	void ready();
 
 public slots:
-	void move_up();
-	void move_down();
-	void start_moving();
+	void move();
 	void stop();
 	void call(Direction direction);
 
@@ -41,8 +37,9 @@ private:
 	State state;
 	ElevatorCabDoors doors;
 	Direction direction;
-	QTimer up_floor_timer;
-	QTimer down_floor_timer;
+	QTimer pass_floor_timer;
+
+	void _move();
 
 private:
 	Logger *logger;

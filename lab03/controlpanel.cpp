@@ -1,7 +1,5 @@
 #include "controlpanel.h"
 
-#include <QtDebug>
-
 ControlPanel::ControlPanel(int floors, QObject *parent, Logger *logger)
 	: QObject(parent)
 	, state(State::idle)
@@ -36,9 +34,6 @@ void ControlPanel::call(int floor)
 			emit called(direction);
 		}
 	}
-	else {
-
-	}
 }
 
 void ControlPanel::pass_floor()
@@ -46,10 +41,7 @@ void ControlPanel::pass_floor()
 	floor += direction;
 	emit passed_floor(floor);
 
-	{
-	const QString action = direction == Direction::up ? "поднялся" : "опустился";
-	log(logger, "Лифт " + action + " с " + QString::number(floor - direction + 1) + " на " + QString::number(floor + 1));
-	}
+	log(logger, "Лифт " + QString(direction == Direction::up ? "поднялся" : "опустился") + " с " + QString::number(floor - direction + 1) + " на " + QString::number(floor + 1));
 
 	if (is_target[floor]) {
 		log(logger, "Лифт остановился на " + QString::number(floor + 1) + " этаже");
@@ -60,39 +52,34 @@ void ControlPanel::pass_floor()
 		emit stopped(floor);
 	}
 	else {
-		if (direction == Direction::up)
-			emit move_up();
-		else if (direction == Direction::down)
-			emit move_down();
+		emit move();
 	}
 }
 
 int ControlPanel::next_target() const
 {
-	for (int target = this->floor + direction; 0 <= target && target < floors; target += direction) {
+	for (int target = this->floor + direction; 0 <= target && target < floors; target += direction)
 		if (is_target[target])
 			return target;
-	}
 
-	for (int target = this->floor - direction; 0 <= target && target < floors; target -= direction) {
+	for (int target = this->floor - direction; 0 <= target && target < floors; target -= direction)
 		if (is_target[target])
 			return target;
-	}
 
-	return 0;
+	return -1;
 }
 
 void ControlPanel::look_around()
 {
 	if (state == State::waiting) {
 		const int target = next_target();
-		if (!target) {
-			state = State::idle;
-		}
-		else {
+		if (~target) {
 			state = State::busy;
 			direction = dir(target, floor);
 			emit called(direction);
+		}
+		else {
+			state = State::idle;
 		}
 	}
 }

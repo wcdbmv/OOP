@@ -22,8 +22,7 @@ public:
 	void set_logger(Logger *logger);
 
 signals: // in
-	void move_up();
-	void move_down();
+	void move();
 	void stop();
 	void called(Direction direction);
 
