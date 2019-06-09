@@ -12,15 +12,15 @@ template <typename T>
 class BaseMatrix {
   class proxy {
    public:
-    proxy(size_t, T*);
+    proxy(std::size_t, T*);
 
-    T& at(size_t);
-    const T& at(size_t) const;
-    T& operator[](size_t);
-    const T& operator[](size_t) const;
+    T& at(std::size_t);
+    const T& at(std::size_t) const;
+    T& operator[](std::size_t);
+    const T& operator[](std::size_t) const;
 
    private:
-    size_t cols_;
+    std::size_t cols_;
     T* data_;
   };
 
@@ -28,11 +28,11 @@ class BaseMatrix {
   typedef Iterator<T> iterator;
   typedef ConstIterator<T> const_iterator;
 
-  explicit BaseMatrix(size_t, size_t);
-  explicit BaseMatrix(size_t, size_t, const T&);
-  BaseMatrix(size_t, size_t, iterator, iterator);
-  BaseMatrix(size_t, size_t, const_iterator, const_iterator);
-  BaseMatrix(size_t, size_t, std::initializer_list<T>);
+  explicit BaseMatrix(std::size_t, std::size_t);
+  explicit BaseMatrix(std::size_t, std::size_t, const T&);
+  BaseMatrix(std::size_t, std::size_t, iterator, iterator);
+  BaseMatrix(std::size_t, std::size_t, const_iterator, const_iterator);
+  BaseMatrix(std::size_t, std::size_t, std::initializer_list<T>);
   BaseMatrix(const BaseMatrix&);
   BaseMatrix(BaseMatrix&&);
   virtual ~BaseMatrix();
@@ -40,10 +40,10 @@ class BaseMatrix {
   BaseMatrix& operator=(BaseMatrix&&);
   BaseMatrix& operator=(std::initializer_list<T>);
 
-  proxy at(size_t);
-  const proxy at(size_t) const;
-  proxy operator[](size_t);
-  const proxy operator[](size_t) const;
+  proxy at(std::size_t);
+  const proxy at(std::size_t) const;
+  proxy operator[](std::size_t);
+  const proxy operator[](std::size_t) const;
 
   iterator begin();
   const_iterator cbegin() const;
@@ -55,9 +55,9 @@ class BaseMatrix {
   iterator rend();
   const_iterator rcend() const;
 
-  size_t rows() const;
-  size_t columns() const;
-  size_t capacity() const;
+  std::size_t rows() const;
+  std::size_t columns() const;
+  std::size_t capacity() const;
   void zero();
   void swap(BaseMatrix&);
 
@@ -81,19 +81,19 @@ class BaseMatrix {
   friend inline std::ostream& operator<<(std::ostream&, const BaseMatrix<U>&);
 
  protected:
-  size_t rows_;
-  size_t cols_;
-  size_t capacity_;
+  std::size_t rows_;
+  std::size_t cols_;
+  std::size_t capacity_;
   T* data_;
 };
 
 template <typename T>
-BaseMatrix<T>::proxy::proxy(size_t col_count, T* data) : cols_(col_count), data_(data) {
+BaseMatrix<T>::proxy::proxy(std::size_t col_count, T* data) : cols_(col_count), data_(data) {
 
 }
 
 template <typename T>
-T& BaseMatrix<T>::proxy::at(size_t index) {
+T& BaseMatrix<T>::proxy::at(std::size_t index) {
   if (index < this->cols_) {
     return *(this->data_ + index);
 
@@ -103,7 +103,7 @@ T& BaseMatrix<T>::proxy::at(size_t index) {
 }
 
 template <typename T>
-const T& BaseMatrix<T>::proxy::at(size_t index) const {
+const T& BaseMatrix<T>::proxy::at(std::size_t index) const {
   if (index < this->cols_) {
     return *(this->data_ + index);
 
@@ -113,7 +113,7 @@ const T& BaseMatrix<T>::proxy::at(size_t index) const {
 }
 
 template <typename T>
-T& BaseMatrix<T>::proxy::operator[](size_t index) {
+T& BaseMatrix<T>::proxy::operator[](std::size_t index) {
   if (index < this->cols_) {
     return *(this->data_ + index);
 
@@ -123,7 +123,7 @@ T& BaseMatrix<T>::proxy::operator[](size_t index) {
 }
 
 template <typename T>
-const T& BaseMatrix<T>::proxy::operator[](size_t index) const {
+const T& BaseMatrix<T>::proxy::operator[](std::size_t index) const {
   if (index < this->cols_) {
     return *(this->data_ + index);
 
@@ -133,7 +133,7 @@ const T& BaseMatrix<T>::proxy::operator[](size_t index) const {
 }
 
 template <typename T>
-BaseMatrix<T>::BaseMatrix(size_t row_count, size_t col_count)
+BaseMatrix<T>::BaseMatrix(std::size_t row_count, std::size_t col_count)
     : rows_(row_count), cols_(col_count), capacity_(row_count * col_count) {
   try {
     this->data_ = new T[this->capacity_];
@@ -144,54 +144,54 @@ BaseMatrix<T>::BaseMatrix(size_t row_count, size_t col_count)
 }
 
 template <typename T>
-BaseMatrix<T>::BaseMatrix(size_t row_count, size_t col_count, const T& value)
+BaseMatrix<T>::BaseMatrix(std::size_t row_count, std::size_t col_count, const T& value)
     : BaseMatrix(row_count, col_count) {
-  for (size_t i = 0; i < this->capacity_; ++i) {
+  for (std::size_t i = 0; i < this->capacity_; ++i) {
     this->data_[i] = value;
   }
 }
 
 template <typename T>
-BaseMatrix<T>::BaseMatrix(size_t row_count, size_t col_count, iterator first, iterator last)
+BaseMatrix<T>::BaseMatrix(std::size_t row_count, std::size_t col_count, iterator first, iterator last)
     : BaseMatrix(row_count, col_count) {
-  size_t size = this->capacity_ <= static_cast<size_t>(last - first) ?
-                this->capacity_ : static_cast<size_t>(last - first);
+  std::size_t size = this->capacity_ <= static_cast<std::size_t>(last - first) ?
+                this->capacity_ : static_cast<std::size_t>(last - first);
 
-  for (size_t i = 0; i < size; ++i, ++first) {
+  for (std::size_t i = 0; i < size; ++i, ++first) {
     this->data_[i] = *first;
   }
 
-  for (size_t i = size; i < this->capacity_; ++i) {
+  for (std::size_t i = size; i < this->capacity_; ++i) {
     this->data_[i] = 0;
   }
 }
 
 template <typename T>
-BaseMatrix<T>::BaseMatrix(size_t row_count, size_t col_count, const_iterator first, const_iterator last)
+BaseMatrix<T>::BaseMatrix(std::size_t row_count, std::size_t col_count, const_iterator first, const_iterator last)
     : BaseMatrix(row_count, col_count) {
-  size_t size = this->capacity_ <= static_cast<size_t>(last - first) ?
-                this->capacity_ : static_cast<size_t>(last - first);
+  std::size_t size = this->capacity_ <= static_cast<std::size_t>(last - first) ?
+                this->capacity_ : static_cast<std::size_t>(last - first);
 
-  for (size_t i = 0; i < size; ++i, ++first) {
+  for (std::size_t i = 0; i < size; ++i, ++first) {
     this->data_[i] = *first;
   }
 
-  for (size_t i = size; i < this->capacity_; ++i) {
+  for (std::size_t i = size; i < this->capacity_; ++i) {
     this->data_[i] = 0;
   }
 }
 
 template <typename T>
-BaseMatrix<T>::BaseMatrix(size_t row_count, size_t col_count, std::initializer_list<T> lst)
+BaseMatrix<T>::BaseMatrix(std::size_t row_count, std::size_t col_count, std::initializer_list<T> lst)
     : BaseMatrix(row_count, col_count) {
-  size_t size = this->capacity_ <= lst.size() ? this->capacity_ : lst.size();
+  std::size_t size = this->capacity_ <= lst.size() ? this->capacity_ : lst.size();
   typename std::initializer_list<T>::iterator iter = lst.begin();
 
-  for (size_t i = 0; i < size; ++i, ++iter) {
+  for (std::size_t i = 0; i < size; ++i, ++iter) {
     this->data_[i] = *iter;
   }
 
-  for (size_t i = size; i < this->capacity_; ++i) {
+  for (std::size_t i = size; i < this->capacity_; ++i) {
     this->data_[i] = 0;
   }
 }
@@ -262,14 +262,14 @@ BaseMatrix<T>& BaseMatrix<T>::operator=(BaseMatrix&& other) {
 
 template <typename T>
 BaseMatrix<T>& BaseMatrix<T>::operator=(std::initializer_list<T> lst) {
-  size_t size = this->capacity_ <= lst.size() ? this->capacity_ : lst.size();
+  std::size_t size = this->capacity_ <= lst.size() ? this->capacity_ : lst.size();
   typename std::initializer_list<T>::const_iterator iter = lst.begin();
 
-  for (size_t i = 0; i < size; ++i, ++iter) {
+  for (std::size_t i = 0; i < size; ++i, ++iter) {
     this->data_[i] = *iter;
   }
 
-  for (size_t i = size; i < this->capacity_; ++i) {
+  for (std::size_t i = size; i < this->capacity_; ++i) {
     this->data_[i] = 0;
   }
 
@@ -277,7 +277,7 @@ BaseMatrix<T>& BaseMatrix<T>::operator=(std::initializer_list<T> lst) {
 }
 
 template <typename T>
-typename BaseMatrix<T>::proxy BaseMatrix<T>::at(size_t index) {
+typename BaseMatrix<T>::proxy BaseMatrix<T>::at(std::size_t index) {
   if (index < this->rows_) {
     return proxy(this->cols_, this->data_ + this->cols_ * index);
 
@@ -287,7 +287,7 @@ typename BaseMatrix<T>::proxy BaseMatrix<T>::at(size_t index) {
 }
 
 template <typename T>
-const typename BaseMatrix<T>::proxy BaseMatrix<T>::at(size_t index) const {
+const typename BaseMatrix<T>::proxy BaseMatrix<T>::at(std::size_t index) const {
   if (index < this->rows_) {
     return proxy(this->cols_, this->data_ + this->cols_ * index);
 
@@ -297,7 +297,7 @@ const typename BaseMatrix<T>::proxy BaseMatrix<T>::at(size_t index) const {
 }
 
 template <typename T>
-typename BaseMatrix<T>::proxy BaseMatrix<T>::operator[](size_t index) {
+typename BaseMatrix<T>::proxy BaseMatrix<T>::operator[](std::size_t index) {
   if (index < this->rows_) {
     return proxy(this->cols_, this->data_ + this->cols_ * index);
 
@@ -307,7 +307,7 @@ typename BaseMatrix<T>::proxy BaseMatrix<T>::operator[](size_t index) {
 }
 
 template <typename T>
-const typename BaseMatrix<T>::proxy BaseMatrix<T>::operator[](size_t index) const {
+const typename BaseMatrix<T>::proxy BaseMatrix<T>::operator[](std::size_t index) const {
   if (index < this->rows_) {
     return proxy(this->cols_, this->data_ + this->cols_ * index);
 
@@ -357,23 +357,23 @@ typename BaseMatrix<T>::const_iterator BaseMatrix<T>::rcend() const {
 }
 
 template <typename T>
-size_t BaseMatrix<T>::rows() const {
+std::size_t BaseMatrix<T>::rows() const {
   return this->rows_;
 }
 
 template <typename T>
-size_t BaseMatrix<T>::columns() const {
+std::size_t BaseMatrix<T>::columns() const {
   return this->cols_;
 }
 
 template <typename T>
-size_t BaseMatrix<T>::capacity() const {
+std::size_t BaseMatrix<T>::capacity() const {
   return this->capacity_;
 }
 
 template <typename T>
 void BaseMatrix<T>::zero() {
-  for (size_t i = 0; i < this->capacity_; ++i) {
+  for (std::size_t i = 0; i < this->capacity_; ++i) {
     this->data_[i] = T();
   }
 }
@@ -397,7 +397,7 @@ bool operator==(const BaseMatrix<T>& lhs, const BaseMatrix<T>& rhs) {
 
   if (are_equal) {
 
-    for (size_t i = 0; i < lhs.size() && are_equal; ++i) {
+    for (std::size_t i = 0; i < lhs.size() && are_equal; ++i) {
 
       if (lhs[i] != rhs[i]) {
         are_equal = false;
@@ -419,7 +419,7 @@ bool operator<(const BaseMatrix<T>& lhs, const BaseMatrix<T>& rhs) {
 
   if (!is_less && lhs.size() == rhs.size()) {
 
-    for (size_t i = 0; i < lhs.size() && !is_less; ++i) {
+    for (std::size_t i = 0; i < lhs.size() && !is_less; ++i) {
 
       if (lhs[i] < rhs[i]) {
         is_less = true;
@@ -447,9 +447,9 @@ bool operator>=(const BaseMatrix<T>& lhs, const BaseMatrix<T>& rhs) {
 
 template <typename T>
 std::ostream& operator<<(std::ostream& stream, const BaseMatrix<T>& mtx) {
-  for (size_t i = 0; i < mtx.rows(); ++i) {
+  for (std::size_t i = 0; i < mtx.rows(); ++i) {
 
-    for (size_t j = 0; j < mtx.columns(); ++j) {
+    for (std::size_t j = 0; j < mtx.columns(); ++j) {
       stream << mtx[i][j] << " ";
     }
 

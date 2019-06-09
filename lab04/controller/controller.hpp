@@ -20,16 +20,16 @@ class Controller {
   ~Controller() = default;
 
   void UploadView(BaseUploader& uploader);
-  void RemoveView(size_t index);
+  void RemoveView(std::size_t index);
 
-  void AddModel(size_t index);
-  void RemoveModel(size_t index);
+  void AddModel(std::size_t index);
+  void RemoveModel(std::size_t index);
 
   void AddCamera();
-  void RemoveCamera(size_t index);
+  void RemoveCamera(std::size_t index);
 
   void TransformModel(BaseTransformation& transformation, ssize_t index);
-  void TransformCamera(ICommand& command, size_t index);
+  void TransformCamera(ICommand& command, std::size_t index);
 
   void DrawScene(BaseDrawer& drawer, ssize_t camera_index);
 

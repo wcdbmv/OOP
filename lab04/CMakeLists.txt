@@ -14,7 +14,6 @@ find_package(Qt5Widgets REQUIRED)
 
 set(SOURCES
         main.cpp
-        3dparty/jsmn.c
         commands/commands.cpp
         controller/controller.cpp
         exceptions/base_exception.cpp
@@ -43,14 +42,12 @@ set(SOURCES
         upload/uploader.cpp)
 
 set(HEADERS
-        3dparty/jsmn.h
         commands/commands.hpp
         containers/iterator/const_iterator.hpp
         containers/iterator/iterator.hpp
         containers/iterator/base_iterator.hpp
         containers/matrix/matrix.hpp
         containers/matrix/base_matrix.hpp
-        containers/pair/pair.hpp
         containers/vector/vector.hpp
         containers/vector/base_vector.hpp
         controller/controller.hpp
@@ -73,6 +70,7 @@ set(HEADERS
         objects/model.hpp
         objects/scene_object.hpp
         objects/visible_object.hpp
+        math3d/edge.hpp
         math3d/matrix4x4.hpp
         math3d/point3d.hpp
         math3d/vector4d.hpp

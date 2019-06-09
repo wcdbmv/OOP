@@ -63,7 +63,7 @@ template <typename T>
 void Vector4D<T>::Normalize() {
   const T norm = 1 / Length();
 
-  for (size_t i = 0; i < Vector<T>::size() - 1; ++i)
+  for (std::size_t i = 0; i < Vector<T>::size() - 1; ++i)
     (*this)[i] *= norm;
 }
 

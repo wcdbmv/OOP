@@ -1,6 +1,7 @@
 #ifndef LAB04_MATH3D_POINT3D_HPP
 #define LAB04_MATH3D_POINT3D_HPP
 
+#include <istream>
 #include <ostream>
 
 #include "containers/vector/vector.hpp"
@@ -59,6 +60,8 @@ constexpr Point3D<T> operator/(const Point3D<T>& lhs, const Point3D<T>& rhs);
 template <typename T>
 constexpr Point3D<T> operator/(const Point3D<T>& point, const T& value);
 
+template <typename T>
+std::istream& operator>>(std::istream& is, Point3D<T>& point);
 template <typename T>
 std::ostream& operator<<(std::ostream& os, const Point3D<T>& point);
 
@@ -242,8 +245,13 @@ constexpr Point3D<T> operator/(const Point3D<T>& point, const T& value) {
 }
 
 template <typename T>
+std::istream& operator>>(std::istream& is, Point3D<T>& point) {
+  return is >> point.x() >> point.y() >> point.z();
+}
+
+template <typename T>
 std::ostream& operator<<(std::ostream& os, const Point3D<T>& point) {
-  return os << point.x() << ' ' << point.y() << ' ' << point.z() << ' ' << std::endl;
+  return os << point.x() << ' ' << point.y() << ' ' << point.z();
 }
 
 #endif  // LAB04_MATH3D_POINT3D_HPP

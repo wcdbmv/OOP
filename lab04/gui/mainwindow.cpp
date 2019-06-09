@@ -22,7 +22,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::keyPressEvent(QKeyEvent* e) {
   ssize_t model_current_index = ui->modelChoiceButton->currentIndex() - 1;
-  size_t camera_current_index = ui->cameraChoiceButton->currentIndex();
+  std::size_t camera_current_index = ui->cameraChoiceButton->currentIndex();
 
   try {
 
@@ -138,11 +138,12 @@ void MainWindow::update_scene_view(ssize_t camera_index) {
 
 void MainWindow::on_actionupload_model_triggered() {
   try {
-    QString file_path = QFileDialog::getOpenFileName(this, QObject::tr("Specify file with model"),
-                                                     QDir::currentPath(), QObject::tr("json (*.json)"));
-    Commands::UploadView comm(file_path.toStdString());
+    QString filename = QFileDialog::getOpenFileName(this, QObject::tr("Specify file with model"), QDir::currentPath(), QObject::tr("Any file (*)"));
+    if (filename.isEmpty())
+      return;
+    Commands::UploadView comm(filename.toStdString());
     this->command_controller.ExecuteCommand(comm);
-    ui->listWidget->addItem(file_path.section("/", -1, -1).section(".", 0, 0));
+    ui->listWidget->addItem(filename.section("/", -1, -1).section(".", 0, 0));
 
   } catch (BaseException& ex) {
     QMessageBox::warning(this, "Error message", QString(ex.what()));
@@ -176,20 +177,20 @@ void MainWindow::on_removeSceneObjectButton_clicked() {
     if (ui->modelButton->isChecked() && ui->modelChoiceButton->currentIndex() > 0) {
       Commands::RemoveModel comm(ui->modelChoiceButton->currentIndex() - 1);
       this->command_controller.ExecuteCommand(comm);
-      size_t i = static_cast<size_t>(ui->modelChoiceButton->currentIndex());
+      std::size_t i = static_cast<std::size_t>(ui->modelChoiceButton->currentIndex());
       ui->modelChoiceButton->removeItem(ui->modelChoiceButton->currentIndex());
 
-      for (; i < static_cast<size_t>(ui->modelChoiceButton->count()); ++i) {
+      for (; i < static_cast<std::size_t>(ui->modelChoiceButton->count()); ++i) {
         ui->modelChoiceButton->setItemText(i, QString::number(i - 1) + " : model");
       }
 
     } else if (ui->cameraButton->isChecked() && ui->cameraChoiceButton->currentIndex() > 0) {
       Commands::RemoveCamera comm(ui->cameraChoiceButton->currentIndex());
       this->command_controller.ExecuteCommand(comm);
-      size_t i = static_cast<size_t>(ui->cameraChoiceButton->currentIndex());
+      std::size_t i = static_cast<std::size_t>(ui->cameraChoiceButton->currentIndex());
       ui->cameraChoiceButton->removeItem(ui->cameraChoiceButton->currentIndex());
 
-      for (; i < static_cast<size_t>(ui->cameraChoiceButton->count()); ++i) {
+      for (; i < static_cast<std::size_t>(ui->cameraChoiceButton->count()); ++i) {
         ui->cameraChoiceButton->setItemText(i, QString::number(i) + " : camera");
       }
     }

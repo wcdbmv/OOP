@@ -13,12 +13,12 @@ class ModelView {
   ~ModelView() = default;
 
   void AddView(const Model& model);
-  void RemoveView(size_t index);
+  void RemoveView(std::size_t index);
 
-  const Model& operator[](size_t index) const;
+  const Model& operator[](std::size_t index) const;
 
  private:
-  void CheckOutOfRange(size_t index) const;
+  void CheckOutOfRange(std::size_t index) const;
 
   Vector<Model> models_;
 };

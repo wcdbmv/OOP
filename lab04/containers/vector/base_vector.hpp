@@ -10,15 +10,15 @@
 
 template <typename T>
 class BaseVector {
-  const size_t BASE_SIZE = 7;
+  const std::size_t BASE_SIZE = 7;
 
  public:
   typedef Iterator<T> iterator;
   typedef ConstIterator<T> const_iterator;
 
   explicit BaseVector();
-  explicit BaseVector(size_t);
-  explicit BaseVector(size_t, const T&);
+  explicit BaseVector(std::size_t);
+  explicit BaseVector(std::size_t, const T&);
   BaseVector(iterator, iterator);
   BaseVector(const_iterator, const_iterator);
   BaseVector(std::initializer_list<T>);
@@ -29,10 +29,10 @@ class BaseVector {
   BaseVector& operator=(BaseVector&&);
   BaseVector& operator=(std::initializer_list<T>);
 
-  T& at(size_t);
-  const T& at(size_t) const;
-  T& operator[](size_t);
-  const T& operator[](size_t) const;
+  T& at(std::size_t);
+  const T& at(std::size_t) const;
+  T& operator[](std::size_t);
+  const T& operator[](std::size_t) const;
 
   iterator begin();
   const_iterator cbegin() const;
@@ -45,8 +45,8 @@ class BaseVector {
   const_iterator rcend() const;
 
   bool empty() const;
-  size_t size() const;
-  size_t capacity() const;
+  std::size_t size() const;
+  std::size_t capacity() const;
   void clear();
   void swap(BaseVector&);
 
@@ -70,8 +70,8 @@ class BaseVector {
   friend inline std::ostream& operator<<(std::ostream&, const BaseVector<U>&);
 
  protected:
-  size_t size_;
-  size_t capacity_;
+  std::size_t size_;
+  std::size_t capacity_;
   T* data_;
 
   inline void reallocate();
@@ -88,7 +88,7 @@ BaseVector<T>::BaseVector() : size_(0), capacity_(BASE_SIZE) {
 }
 
 template <typename T>
-BaseVector<T>::BaseVector(size_t count) : size_(count), capacity_(count) {
+BaseVector<T>::BaseVector(std::size_t count) : size_(count), capacity_(count) {
   try {
     this->data_ = new T[this->capacity_];
 
@@ -98,22 +98,22 @@ BaseVector<T>::BaseVector(size_t count) : size_(count), capacity_(count) {
 }
 
 template <typename T>
-BaseVector<T>::BaseVector(size_t count, const T& value) : BaseVector(count) {
-  for (size_t i = 0; i < this->size_; ++i) {
+BaseVector<T>::BaseVector(std::size_t count, const T& value) : BaseVector(count) {
+  for (std::size_t i = 0; i < this->size_; ++i) {
     (*this)[i] = value;
   }
 }
 
 template <typename T>
 BaseVector<T>::BaseVector(iterator first, iterator last) : BaseVector(last - first) {
-  for (size_t i = 0; i < this->size_; ++i, ++first) {
+  for (std::size_t i = 0; i < this->size_; ++i, ++first) {
     (*this)[i] = *first;
   };
 }
 
 template <typename T>
 BaseVector<T>::BaseVector(const_iterator first, const_iterator last) : BaseVector(last - first) {
-  for (size_t i = 0; i < this->size_; ++i, ++first) {
+  for (std::size_t i = 0; i < this->size_; ++i, ++first) {
     (*this)[i] = *first;
   };
 }
@@ -200,7 +200,7 @@ BaseVector<T>& BaseVector<T>::operator=(std::initializer_list<T> lst) {
 }
 
 template <typename T>
-T& BaseVector<T>::at(size_t pos) {
+T& BaseVector<T>::at(std::size_t pos) {
   if (pos < this->size_) {
     return (*this)[pos];
 
@@ -210,7 +210,7 @@ T& BaseVector<T>::at(size_t pos) {
 }
 
 template <typename T>
-const T& BaseVector<T>::at(size_t pos) const {
+const T& BaseVector<T>::at(std::size_t pos) const {
   if (pos < this->size_) {
     return (*this)[pos];
 
@@ -220,7 +220,7 @@ const T& BaseVector<T>::at(size_t pos) const {
 }
 
 template <typename T>
-T& BaseVector<T>::operator[](size_t pos) {
+T& BaseVector<T>::operator[](std::size_t pos) {
   if (pos < this->size_) {
     return this->data_[pos];
 
@@ -230,7 +230,7 @@ T& BaseVector<T>::operator[](size_t pos) {
 }
 
 template <typename T>
-const T& BaseVector<T>::operator[](size_t pos) const {
+const T& BaseVector<T>::operator[](std::size_t pos) const {
   if (pos < this->size_) {
     return this->data_[pos];
 
@@ -285,18 +285,18 @@ bool BaseVector<T>::empty() const {
 }
 
 template <typename T>
-size_t BaseVector<T>::size() const {
+std::size_t BaseVector<T>::size() const {
   return this->size_;
 }
 
 template <typename T>
-size_t BaseVector<T>::capacity() const {
+std::size_t BaseVector<T>::capacity() const {
   return this->capacity_;
 }
 
 template <typename T>
 void BaseVector<T>::clear() {
-  for (size_t i = 0; i < this->size(); ++i) {
+  for (std::size_t i = 0; i < this->size(); ++i) {
     (*this)[i].~T();
   }
 
@@ -334,7 +334,7 @@ bool operator==(const BaseVector<T>& lhs, const BaseVector<T>& rhs) {
 
   if (are_equal) {
 
-    for (size_t i = 0; i < lhs.size() && are_equal; ++i) {
+    for (std::size_t i = 0; i < lhs.size() && are_equal; ++i) {
 
       if (lhs[i] != rhs[i]) {
         are_equal = false;
@@ -356,7 +356,7 @@ bool operator<(const BaseVector<T>& lhs, const BaseVector<T>& rhs) {
 
   if (!is_less && lhs.size() == rhs.size()) {
 
-    for (size_t i = 0; i < lhs.size() && !is_less; ++i) {
+    for (std::size_t i = 0; i < lhs.size() && !is_less; ++i) {
 
       if (lhs[i] < rhs[i]) {
         is_less = true;

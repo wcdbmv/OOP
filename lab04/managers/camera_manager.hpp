@@ -6,7 +6,7 @@
 
 class CameraManager {
  public:
-  static void Transform(Scene& scene, ICommand& command, size_t index);
+  static void Transform(Scene& scene, ICommand& command, std::size_t index);
 
  private:
   CameraManager() = default;

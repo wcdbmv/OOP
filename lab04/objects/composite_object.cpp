@@ -18,10 +18,10 @@ void CompositeObject::AddModel(SceneObject *object) {
   ++n_models_;
 }
 
-void CompositeObject::RemoveModel(size_t index) {
+void CompositeObject::RemoveModel(std::size_t index) {
   if (index < n_models_) {
-    size_t count = 0;
-    size_t i = 0;
+    std::size_t count = 0;
+    std::size_t i = 0;
 
     for (; i < scene_objects_.size(); ++i) {
       if (scene_objects_[i]->Visible()) {
@@ -45,10 +45,10 @@ void CompositeObject::AddCamera(SceneObject *object) {
   ++n_cameras_;
 }
 
-void CompositeObject::RemoveCamera(size_t index) {
+void CompositeObject::RemoveCamera(std::size_t index) {
   if (index < n_cameras_) {
-    size_t count = 0;
-    size_t i = 0;
+    std::size_t count = 0;
+    std::size_t i = 0;
 
     for (; i < scene_objects_.size(); ++i) {
       if (!scene_objects_[i]->Visible()) {
@@ -67,10 +67,10 @@ void CompositeObject::RemoveCamera(size_t index) {
   }
 }
 
-SceneObject*& CompositeObject::get_model(size_t index) {
+SceneObject*& CompositeObject::get_model(std::size_t index) {
   if (index < n_models_) {
-    size_t count = 0;
-    size_t i = 0;
+    std::size_t count = 0;
+    std::size_t i = 0;
 
     for (; i < scene_objects_.size(); ++i) {
       if (scene_objects_[i]->Visible()) {
@@ -88,10 +88,10 @@ SceneObject*& CompositeObject::get_model(size_t index) {
   }
 }
 
-SceneObject*& CompositeObject::get_camera(size_t index) {
+SceneObject*& CompositeObject::get_camera(std::size_t index) {
   if (index < n_cameras_) {
-    size_t count = 0;
-    size_t i = 0;
+    std::size_t count = 0;
+    std::size_t i = 0;
 
     for (; i < scene_objects_.size(); ++i) {
       if (!scene_objects_[i]->Visible()) {

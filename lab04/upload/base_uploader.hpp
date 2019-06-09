@@ -5,13 +5,12 @@
 
 class BaseUploader {
  public:
-  BaseUploader() = default;
-  BaseUploader(const BaseUploader&) = delete;
-  virtual ~BaseUploader() = default;
+  virtual ~BaseUploader() noexcept = default;
 
   virtual void open() = 0;
-  virtual Model get_model() = 0;
+  virtual bool is_open() const = 0;
   virtual void close() = 0;
+  virtual const Model get_model() = 0;
 };
 
 #endif  // LAB04_UPLOAD_BASE_UPLOADER_HPP_

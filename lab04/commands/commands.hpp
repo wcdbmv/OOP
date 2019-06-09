@@ -31,31 +31,31 @@ class UploadView : public Command {
 
 class DeleteView : public Command {
  public:
-  explicit DeleteView(size_t view_index);
+  explicit DeleteView(std::size_t view_index);
   DeleteView(const DeleteView&) = delete;
   ~DeleteView() = default;
 
   void Execute(Controller*& controller) override;
 
  private:
-  size_t view_index_;
+  std::size_t view_index_;
 };
 
 class AddModel : public Command {
  public:
-  explicit AddModel(size_t view_index);
+  explicit AddModel(std::size_t view_index);
   AddModel(const AddModel&) = delete;
   ~AddModel() = default;
 
   void Execute(Controller*& controller) override;
 
  private:
-  size_t view_index_;
+  std::size_t view_index_;
 };
 
 class RemoveModel : public Command {
  public:
-  explicit RemoveModel(size_t model_index);
+  explicit RemoveModel(std::size_t model_index);
   RemoveModel(RemoveModel&) = delete;
   RemoveModel(const RemoveModel&) = delete;
   ~RemoveModel() = default;
@@ -63,7 +63,7 @@ class RemoveModel : public Command {
   void Execute(Controller*& controller) override;
 
  private:
-  size_t model_index_;
+  std::size_t model_index_;
 };
 
 class AddCamera : public Command {
@@ -77,19 +77,19 @@ class AddCamera : public Command {
 
 class RemoveCamera : public Command {
  public:
-  explicit RemoveCamera(size_t camera_index);
+  explicit RemoveCamera(std::size_t camera_index);
   RemoveCamera(const RemoveCamera&) = delete;
   ~RemoveCamera() = default;
 
   void Execute(Controller*& controller) override;
 
  private:
-  size_t camera_index_;
+  std::size_t camera_index_;
 };
 
 class Move : public Command {
  public:
-  Move(Point3D<double> point, ssize_t model_index);
+  Move(const Point3D<double>& point, ssize_t model_index);
   Move(Move&) = delete;
   Move(const Move&) = delete;
   ~Move() = default;
@@ -168,7 +168,7 @@ class Draw : public Command {
 
 class Yaw : public Command {
  public:
-  Yaw(double angle, size_t index);
+  Yaw(double angle, std::size_t index);
   Yaw(const Yaw&) = delete;
   ~Yaw() = default;
 
@@ -176,12 +176,12 @@ class Yaw : public Command {
 
  private:
   double angle_;
-  size_t camera_index_;
+  std::size_t camera_index_;
 };
 
 class Pitch : public Command {
  public:
-  Pitch(double angle, size_t index);
+  Pitch(double angle, std::size_t index);
   Pitch(const Pitch&) = delete;
   ~Pitch() = default;
 
@@ -189,12 +189,12 @@ class Pitch : public Command {
 
  private:
   double angle_;
-  size_t camera_index_;
+  std::size_t camera_index_;
 };
 
 class Roll : public Command {
  public:
-  Roll(double angle, size_t index);
+  Roll(double angle, std::size_t index);
   Roll(const Roll&) = delete;
   ~Roll() = default;
 
@@ -202,7 +202,7 @@ class Roll : public Command {
 
  private:
   double angle_;
-  size_t camera_index_;
+  std::size_t camera_index_;
 };
 
 }  // namespace Commands

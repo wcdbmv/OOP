@@ -21,16 +21,9 @@ const char* ReadStreamException::what() const noexcept {
   return message_.empty() ? "Uploader::(Read stream exception)" : message_.c_str();
 }
 
-CloseStreamException::CloseStreamException(const char* message)
+FileFormatException::FileFormatException(const char* message)
     : BaseStreamException(message) {}
 
-const char* CloseStreamException::what() const noexcept {
-  return message_.empty() ? "Uploader::(Close stream exception)" : message_.c_str();
-}
-
-JsonException::JsonException(const char* message)
-    : BaseStreamException(message) {}
-
-const char* JsonException::what() const noexcept {
-  return message_.empty() ? "Uploader::jsmn::(Parsing json error)" : message_.c_str();
+const char* FileFormatException::what() const noexcept {
+  return message_.empty() ? "Uploader::(Parsing file error)" : message_.c_str();
 }

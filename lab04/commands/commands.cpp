@@ -5,26 +5,26 @@ namespace Commands {
 UploadView::UploadView(std::string filename)
     : filename_(std::move(filename)) {}
 
-void UploadView::Execute(Controller*&controller) {
+void UploadView::Execute(Controller*& controller) {
   Uploader uploader(filename_);
   controller->UploadView(uploader);
 }
 
-DeleteView::DeleteView(size_t view_index)
+DeleteView::DeleteView(std::size_t view_index)
     : view_index_(view_index) {}
 
 void DeleteView::Execute(Controller*& controller) {
   controller->RemoveView(view_index_);
 }
 
-AddModel::AddModel(size_t view_index)
+AddModel::AddModel(std::size_t view_index)
     : view_index_(view_index) {}
 
 void AddModel::Execute(Controller*& controller) {
   controller->AddModel(view_index_);
 }
 
-RemoveModel::RemoveModel(size_t model_index)
+RemoveModel::RemoveModel(std::size_t model_index)
     : model_index_(model_index) {}
 
 void RemoveModel::Execute(Controller*& controller) {
@@ -35,15 +35,15 @@ void AddCamera::Execute(Controller*& controller) {
   controller->AddCamera();
 }
 
-RemoveCamera::RemoveCamera(size_t camera_index)
+RemoveCamera::RemoveCamera(std::size_t camera_index)
     : camera_index_(camera_index) {}
 
 void RemoveCamera::Execute(Controller*& controller) {
   controller->RemoveCamera(camera_index_);
 }
 
-Move::Move(Point3D<double> point, ssize_t model_index)
-    : point_(std::move(point)), model_index_(model_index) {}
+Move::Move(const Point3D<double>& point, ssize_t model_index)
+    : point_(point), model_index_(model_index) {}
 
 void Move::Execute(Controller*& controller) {
   DimensionalTransformations::Move move(point_);
@@ -94,7 +94,7 @@ void Draw::Execute(Controller*& controller) {
   controller->DrawScene(drawer_, camera_index_);
 }
 
-Yaw::Yaw(double angle, size_t index)
+Yaw::Yaw(double angle, std::size_t index)
     : angle_(angle), camera_index_(index) {}
 
 void Yaw::Execute(Controller*& controller) {
@@ -102,7 +102,7 @@ void Yaw::Execute(Controller*& controller) {
   controller->TransformCamera(yaw, camera_index_);
 }
 
-Pitch::Pitch(double angle, size_t index)
+Pitch::Pitch(double angle, std::size_t index)
     : angle_(angle), camera_index_(index) {}
 
 void Pitch::Execute(Controller*& controller) {
@@ -110,7 +110,7 @@ void Pitch::Execute(Controller*& controller) {
   controller->TransformCamera(pitch, camera_index_);
 }
 
-Roll::Roll(double angle, size_t index)
+Roll::Roll(double angle, std::size_t index)
     : angle_(angle), camera_index_(index) {}
 
 void Roll::Execute(Controller*& controller) {

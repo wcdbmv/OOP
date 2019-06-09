@@ -8,15 +8,15 @@ void Controller::UploadView(BaseUploader& uploader) {
   model_view_.AddView(UploadManager::UploadModel(uploader));
 }
 
-void Controller::RemoveView(size_t index) {
+void Controller::RemoveView(std::size_t index) {
   model_view_.RemoveView(index);
 }
 
-void Controller::AddModel(size_t index) {
+void Controller::AddModel(std::size_t index) {
   scene_.AddModel(new Model(model_view_[index]));
 }
 
-void Controller::RemoveModel(size_t index) {
+void Controller::RemoveModel(std::size_t index) {
   scene_.RemoveModel(index);
 }
 
@@ -24,7 +24,7 @@ void Controller::AddCamera() {
   scene_.AddCamera(new Camera());
 }
 
-void Controller::RemoveCamera(size_t index) {
+void Controller::RemoveCamera(std::size_t index) {
   scene_.RemoveCamera(index);
 }
 
@@ -32,7 +32,7 @@ void Controller::TransformModel(BaseTransformation& transformation, ssize_t inde
   ModelManager::Transform(scene_, transformation, index);
 }
 
-void Controller::TransformCamera(ICommand& command, size_t index) {
+void Controller::TransformCamera(ICommand& command, std::size_t index) {
   CameraManager::Transform(scene_, command, index);
 }
 

@@ -5,12 +5,12 @@ void DrawManager::Draw(Scene& scene, BaseDrawer& drawer, Camera* camera) {
        iter != scene.object_.scene_objects_.end(); ++iter) {
 
     if ((*iter)->Visible()) {
-      Model* m = reinterpret_cast<Model*>(*iter);
-      Matrix4x4<double> mtx = camera->get_view_matrix();
+      Model* p_model = reinterpret_cast<Model*>(*iter);
+      Matrix4x4<double> matrix = camera->get_view_matrix();
 
-      for (size_t i = 0; i < m->edges_.size(); ++i) {
-        Point3D<double> p1 = mtx * m->edges_.at(i).get_first();
-        Point3D<double> p2 = mtx * m->edges_.at(i).get_second();
+      for (const auto& edge: p_model->edges_) {
+        Point3D<double> p1 = matrix * p_model->vertices_.at(edge.p1());
+        Point3D<double> p2 = matrix * p_model->vertices_.at(edge.p2());
         drawer(p1, p2);
       }
     }

@@ -27,18 +27,10 @@ class ReadStreamException : public BaseStreamException {
   const char* what() const noexcept override;
 };
 
-class CloseStreamException : public BaseStreamException {
+class FileFormatException : public BaseStreamException {
  public:
-  explicit CloseStreamException() = default;
-  explicit CloseStreamException(const char* message);
-
-  const char* what() const noexcept override;
-};
-
-class JsonException : public BaseStreamException {
- public:
-  explicit JsonException() = default;
-  explicit JsonException(const char* message);
+  explicit FileFormatException() = default;
+  explicit FileFormatException(const char* message);
 
   const char* what() const noexcept override;
 };
