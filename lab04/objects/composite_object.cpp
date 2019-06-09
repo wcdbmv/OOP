@@ -5,8 +5,8 @@ CompositeObject::CompositeObject() {
 }
 
 void CompositeObject::Transform(BaseTransformation &transformation) {
-  for (Vector<SceneObject*>::iterator iter = scene_objects_.begin(); iter != scene_objects_.end(); ++iter)
-    transformation.Transform(*iter);
+  for (auto& scene_object : scene_objects_)
+    transformation.Transform(scene_object);
 }
 
 bool CompositeObject::Visible() const {

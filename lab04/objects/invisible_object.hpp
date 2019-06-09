@@ -10,7 +10,7 @@ class InvisibleObject : public SceneObject {
   InvisibleObject(const InvisibleObject&) = delete;
   ~InvisibleObject() override = default;
 
-  bool Visible() const override;
+  bool Visible() const final;
 };
 
 #endif  // LAB04_OBJECTS_INVISIBLE_OBJECT_HPP_

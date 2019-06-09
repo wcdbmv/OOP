@@ -1,44 +1,18 @@
-#ifndef ITERATOR_HPP
-#define ITERATOR_HPP
-
-template <typename T> class BaseVector;
-template <typename T> class BaseMatrix;
+#ifndef LAB04_CONTAINERS_ITERATOR_ITERATOR_HPP_
+#define LAB04_CONTAINERS_ITERATOR_ITERATOR_HPP_
 
 #include "base_iterator.hpp"
 
 template <typename T>
 class Iterator : public BaseIterator<T> {
  public:
-  Iterator(const Iterator&);
+  constexpr explicit Iterator(T*);
+  constexpr Iterator(const BaseIterator<T>&);
 
   T& operator*();
   T* operator->();
-
-  friend class BaseVector<T>;
-  friend class BaseMatrix<T>;
-
- private:
-  Iterator(T*);
 };
 
-template <typename T>
-Iterator<T>::Iterator(T* pointer) : BaseIterator<T>(pointer) {
+#include "detail/iterator.hpp"
 
-}
-
-template <typename T>
-Iterator<T>::Iterator(const Iterator& other) : BaseIterator<T>(other.pointer) {
-
-}
-
-template <typename T>
-T& Iterator<T>::operator*() {
-  return *this->pointer;
-}
-
-template <typename T>
-T* Iterator<T>::operator->() {
-  return this->pointer;
-}
-
-#endif // ITERATOR_HPP
+#endif  // LAB04_CONTAINERS_ITERATOR_ITERATOR_HPP_

@@ -1,94 +1,45 @@
-#ifndef ITERATOR_BASE_HPP
-#define ITERATOR_BASE_HPP
+#ifndef LAB04_CONTAINERS_ITERATOR_BASE_ITERATOR_HPP_
+#define LAB04_CONTAINERS_ITERATOR_BASE_ITERATOR_HPP_
 
 #include <cstddef>
 
 template <typename T>
-class BaseIterator {
+class BaseIterator : public std::iterator<std::random_access_iterator_tag, T> {
  public:
-  BaseIterator(const BaseIterator&);
-  virtual ~BaseIterator();
-  BaseIterator& operator=(const BaseIterator&);
+  using difference_type = std::ptrdiff_t;
+  using size_type = std::size_t;
 
-  BaseIterator& operator++();
-  BaseIterator operator++(int);
-  BaseIterator& operator--();
-  BaseIterator operator--(int);
+ public:
+  constexpr explicit BaseIterator(T*);
 
-  ptrdiff_t operator-(const BaseIterator&);
+  constexpr BaseIterator& operator++();
+  constexpr const BaseIterator operator++(int);
+  constexpr BaseIterator& operator--();
+  constexpr const BaseIterator operator--(int);
 
-  bool operator==(const BaseIterator&);
-  bool operator!=(const BaseIterator&);
+  constexpr BaseIterator& operator+=(difference_type value);
+  constexpr BaseIterator& operator-=(difference_type value);
+  constexpr BaseIterator operator[](difference_type index) const;
+
+  template <typename U>
+  friend constexpr const bool operator==(const BaseIterator<U>& lhs, const BaseIterator<U>& rhs);
+  template <typename U>
+  friend constexpr const bool operator!=(const BaseIterator<U>& lhs, const BaseIterator<U>& rhs);
+  template <typename U>
+  friend constexpr const bool operator<(const BaseIterator<U>& lhs, const BaseIterator<U>& rhs);
+  template <typename U>
+  friend constexpr bool operator>(const BaseIterator<U>& lhs, const BaseIterator<U>& rhs);
+  template <typename U>
+  friend constexpr bool operator<=(const BaseIterator<U>& lhs, const BaseIterator<U>& rhs);
+  template <typename U>
+  friend constexpr bool operator>=(const BaseIterator<U>& lhs, const BaseIterator<U>& rhs);
 
  protected:
-  BaseIterator(T*);
-
-  T* pointer;
+  T* pointer_;
 };
 
-template <typename T>
-BaseIterator<T>::BaseIterator(T* pointer) {
-  this->pointer = pointer;
-}
+// TODO: fix [ no matching function for call to ‘copy(ConstIterator<double>&, const BaseIterator<double>, double*&)’ ]
 
-template <typename T>
-BaseIterator<T>::BaseIterator(const BaseIterator& other) {
-  this->pointer = other.pointer;
-}
+#include "detail/base_iterator.hpp"
 
-template <typename T>
-BaseIterator<T>::~BaseIterator() {
-  this->pointer = nullptr;
-}
-
-template <typename T>
-BaseIterator<T>& BaseIterator<T>::operator=(const BaseIterator& rhs) {
-  if (this != &rhs) {
-    this->pointer = rhs.pointer;
-  }
-
-  return *this;
-}
-
-template <typename T>
-BaseIterator<T>& BaseIterator<T>::operator++() {
-  ++this->pointer;
-  return *this;
-}
-
-template <typename T>
-BaseIterator<T> BaseIterator<T>::operator++(int) {
-  BaseIterator temp(*this);
-  this->operator++();
-  return temp;
-}
-
-template <typename T>
-BaseIterator<T>& BaseIterator<T>::operator--() {
-  --this->pointer;
-  return *this;
-}
-
-template <typename T>
-BaseIterator<T> BaseIterator<T>::operator--(int) {
-  BaseIterator temp(*this);
-  this->operator--();
-  return temp;
-}
-
-template <typename T>
-ptrdiff_t BaseIterator<T>::operator-(const BaseIterator<T>& rhs) {
-  return this->pointer - rhs.pointer;
-}
-
-template <typename T>
-bool BaseIterator<T>::operator==(const BaseIterator& rhs) {
-  return this->pointer == rhs.pointer;
-}
-
-template <typename T>
-bool BaseIterator<T>::operator!=(const BaseIterator& rhs) {
-  return this->pointer != rhs.pointer;
-}
-
-#endif // ITERATOR_BASE_HPP
+#endif  // LAB04_CONTAINERS_ITERATOR_BASE_ITERATOR_HPP_

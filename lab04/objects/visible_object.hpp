@@ -10,7 +10,7 @@ class VisibleObject : public SceneObject {
   VisibleObject(const VisibleObject&) = delete;
   ~VisibleObject() override = default;
 
-  bool Visible() const override;
+  bool Visible() const final;
 };
 
 #endif  // LAB04_OBJECTS_VISIBLE_OBJECT_HPP_

@@ -1,44 +1,18 @@
-#ifndef CONST_ITERATOR_HPP
-#define CONST_ITERATOR_HPP
-
-template <typename T> class BaseVector;
-template <typename T> class BaseMatrix;
+#ifndef LAB04_CONTAINERS_ITERATOR_CONST_ITERATOR_HPP_
+#define LAB04_CONTAINERS_ITERATOR_CONST_ITERATOR_HPP_
 
 #include "base_iterator.hpp"
 
 template <typename T>
 class ConstIterator : public BaseIterator<T> {
  public:
-  ConstIterator(const ConstIterator&);
+  constexpr explicit ConstIterator(T*);
+  constexpr ConstIterator(const BaseIterator<T>&);
 
-  const T& operator*();
-  const T* operator->();
-
-  friend class BaseVector<T>;
-  friend class BaseMatrix<T>;
-
- private:
-  ConstIterator(T*);
+  constexpr const T& operator*() const;
+  constexpr const T* operator->() const;
 };
 
-template <typename T>
-ConstIterator<T>::ConstIterator(T* pointer) : BaseIterator<T>(pointer) {
+#include "detail/const_iterator.hpp"
 
-}
-
-template <typename T>
-ConstIterator<T>::ConstIterator(const ConstIterator& other) : BaseIterator<T>(other.pointer) {
-
-}
-
-template <typename T>
-const T& ConstIterator<T>::operator*() {
-  return *this->pointer;
-}
-
-template <typename T>
-const T* ConstIterator<T>::operator->() {
-  return this->pointer;
-}
-
-#endif // CONST_ITERATOR_HPP
+#endif  // LAB04_CONTAINERS_ITERATOR_CONST_ITERATOR_HPP_
