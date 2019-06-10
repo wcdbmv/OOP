@@ -20,5 +20,3 @@ const Model& ModelView::operator[](std::size_t index) const {
 
   return models_[index];
 }
-
-

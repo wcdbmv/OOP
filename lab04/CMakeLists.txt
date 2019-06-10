@@ -37,7 +37,7 @@ set(SOURCES
         scene/scene.cpp
         transformations/command_interface.cpp
         transformations/dimensional_transformations.cpp
-        transformations/model_transformations.cpp
+        transformations/transformation.cpp
         transformations/transformation_interface.cpp
         upload/uploader.cpp)
 
@@ -75,10 +75,10 @@ set(HEADERS
         math3d/point3d.hpp
         math3d/vector4d.hpp
         scene/scene.hpp
-        transformations/base_transformations.hpp
+        transformations/base_transformation.hpp
         transformations/command_interface.hpp
         transformations/dimensional_transformations.hpp
-        transformations/model_transformations.hpp
+        transformations/transformation.hpp
         transformations/transformation_interface.hpp
         upload/base_uploader.hpp
         upload/uploader.hpp)

@@ -29,8 +29,8 @@ void Camera::RotateUpDownSphere(double angle) {
   right_ = transform * right_;
   look_ = transform * look_;
   point = Point3D<double>(target_[0], target_[1], target_[2]);
-  const Matrix4x4<double> move = DimensionalTransformations::Move(point);
-  position_ = position_ * (move * -1.0) * transform * move;
+  const Matrix4x4<double> translation = DimensionalTransformations::Translation(point);
+  position_ = position_ * (translation * -1.0) * transform * translation;
 }
 
 void Camera::RotateLeftRightSphere(double angle) {
@@ -39,8 +39,8 @@ void Camera::RotateLeftRightSphere(double angle) {
   up_ = transform * up_;
   look_ = transform * look_;
   point = Point3D<double>(target_[0], target_[1], target_[2]);
-  const Matrix4x4<double> move = DimensionalTransformations::Move(point);
-  position_ = position_ * (move * -1.0) * transform * move;
+  const Matrix4x4<double> translation = DimensionalTransformations::Translation(point);
+  position_ = position_ * (translation * -1.0) * transform * translation;
 }
 
 void Camera::Yaw(double angle) {

@@ -26,7 +26,7 @@ class Vector : public BaseVector<T> {
   Vector(size_type, std::initializer_list<T>);
   Vector(const Vector&);
   Vector(Vector&&) noexcept;
-  Vector& operator=(const Vector&);
+  virtual Vector& operator=(const Vector&);
   Vector& operator=(Vector&&) noexcept;
 
   std::size_t max_size() const;

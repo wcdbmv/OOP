@@ -4,7 +4,6 @@
 #include <cmath>
 
 #include "transformation_interface.hpp"
-#include "math3d/point3d.hpp"
 
 namespace DimensionalTransformations {
 
@@ -32,16 +31,16 @@ class Rotation : public ITransformation {
   Rotation(const Rotation&) = delete;
 };
 
-class Move : public ITransformation {
+class Translation : public ITransformation {
  public:
-  explicit Move(const Point3D<double>&);
-  Move(const Move&) = delete;
+  explicit Translation(const Point3D<double>&);
+  Translation(const Translation&) = delete;
 };
 
-class Scale : public ITransformation {
+class Scaling : public ITransformation {
  public:
-  explicit Scale(double);
-  Scale(const Scale&) = delete;
+  explicit Scaling(double);
+  Scaling(const Scaling&) = delete;
 };
 
 }  // namespace DimensionalTransformations

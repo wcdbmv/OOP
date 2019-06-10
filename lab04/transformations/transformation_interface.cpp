@@ -2,10 +2,10 @@
 
 ITransformation::ITransformation()
     : Matrix4x4<double>() {
-  this->reset_matrix();
+  this->ResetMatrix();
 }
 
-void ITransformation::reset_matrix() {
+void ITransformation::ResetMatrix() {
   *(reinterpret_cast<Matrix4x4<double>*>(this)) = {
     1, 0, 0, 0,
     0, 1, 0, 0,

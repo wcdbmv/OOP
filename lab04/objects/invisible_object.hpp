@@ -6,7 +6,6 @@
 class InvisibleObject : public SceneObject {
  public:
   explicit InvisibleObject() = default;
-  InvisibleObject(InvisibleObject&) = delete;
   InvisibleObject(const InvisibleObject&) = delete;
   ~InvisibleObject() override = default;
 

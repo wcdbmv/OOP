@@ -14,12 +14,11 @@ class Model : public VisibleObject {
   explicit Model(std::string, Vector<Point3D<double>>, Vector<Edge>);
   Model(const Model&);
   Model(Model&&) noexcept;
-  ~Model() override = default;
 
   Model& operator=(const Model&);
-  Model& operator=(Model&&) noexcept ;
+  Model& operator=(Model&&) noexcept;
 
-  friend class ModelTransformation;
+  friend class Transformation;
   friend class DrawManager;
 
  private:

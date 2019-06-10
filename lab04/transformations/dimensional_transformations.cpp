@@ -1,57 +1,71 @@
 #include "dimensional_transformations.hpp"
 
-DimensionalTransformations::RotationOX::RotationOX(double x_angle)
-    : ITransformation() {
-  this->reset_matrix();
-  (*this)[1][1] = cos(x_angle);
-  (*this)[1][2] = sin(x_angle);
-  (*this)[2][1] = -sin(x_angle);
-  (*this)[2][2] = cos(x_angle);
+DimensionalTransformations::RotationOX::RotationOX(double angle) : ITransformation() {
+  ResetMatrix();
+
+  const auto c = std::cos(angle);
+  const auto s = std::sin(angle);
+
+  (*this)[1][1] = c;
+  (*this)[1][2] = s;
+  (*this)[2][1] = -s;
+  (*this)[2][2] = c;
 }
 
-DimensionalTransformations::RotationOY::RotationOY(double y_angle)
-    : ITransformation() {
-  this->reset_matrix();
-  (*this)[0][0] = cos(y_angle);
-  (*this)[0][2] = -sin(y_angle);
-  (*this)[2][0] = sin(y_angle);
-  (*this)[2][2] = cos(y_angle);
+DimensionalTransformations::RotationOY::RotationOY(double angle) : ITransformation() {
+  ResetMatrix();
+
+  const auto c = std::cos(angle);
+  const auto s = std::sin(angle);
+
+  (*this)[0][0] = c;
+  (*this)[0][2] = s;
+  (*this)[2][0] = -s;
+  (*this)[2][2] = c;
 }
 
-DimensionalTransformations::RotationOZ::RotationOZ(double y_angle)
-    : ITransformation() {
-  this->reset_matrix();
-  (*this)[0][0] = cos(y_angle);
-  (*this)[0][1] = sin(y_angle);
-  (*this)[1][0] = -sin(y_angle);
-  (*this)[1][1] = cos(y_angle);
+DimensionalTransformations::RotationOZ::RotationOZ(double angle) : ITransformation() {
+  ResetMatrix();
+
+  const auto c = std::cos(angle);
+  const auto s = std::sin(angle);
+
+  (*this)[0][0] = c;
+  (*this)[0][1] = s;
+  (*this)[1][0] = -s;
+  (*this)[1][1] = c;
 }
 
-DimensionalTransformations::Rotation::Rotation(const Point3D<double>& offset, double angle)
-    : ITransformation() {
-  this->reset_matrix();
-  (*this)[0][0] = cos(angle) + (1 - cos(angle)) * offset.x() * offset.x();
-  (*this)[1][0] = (1 - cos(angle)) * offset.x() * offset.y() - sin(angle) * offset.z();
-  (*this)[2][0] = (1 - cos(angle)) * offset.x() * offset.z() + sin(angle) * offset.y();
-  (*this)[0][1] = (1 - cos(angle)) * offset.y() * offset.x() + sin(angle) * offset.z();
-  (*this)[1][1] = cos(angle) + (1 - cos(angle)) * offset.y() * offset.y();
-  (*this)[2][1] = (1 - cos(angle)) * offset.y() * offset.z() - sin(angle) * offset.x();
-  (*this)[0][2] = (1 - cos(angle)) * offset.z() * offset.x() - sin(angle) * offset.y();
-  (*this)[1][2] = (1 - cos(angle)) * offset.z() * offset.y() + sin(angle) * offset.x();
-  (*this)[2][2] = cos(angle) + (1 - cos(angle)) * offset.z() * offset.z();
+DimensionalTransformations::Rotation::Rotation(const Point3D<double>& offset, double angle) : ITransformation() {
+  ResetMatrix();
+
+  const auto c = std::cos(angle);
+  const auto s = std::sin(angle);
+  const auto _1c = 1 - c;
+
+  (*this)[0][0] = c + _1c * offset.x() * offset.x();
+  (*this)[1][0] = _1c * offset.x() * offset.y() - s * offset.z();
+  (*this)[2][0] = _1c * offset.x() * offset.z() + s * offset.y();
+  (*this)[0][1] = _1c * offset.y() * offset.x() + s * offset.z();
+  (*this)[1][1] = c + _1c * offset.y() * offset.y();
+  (*this)[2][1] = _1c * offset.y() * offset.z() - s * offset.x();
+  (*this)[0][2] = _1c * offset.z() * offset.x() - s * offset.y();
+  (*this)[1][2] = _1c * offset.z() * offset.y() + s * offset.x();
+  (*this)[2][2] = c + _1c * offset.z() * offset.z();
 }
 
-DimensionalTransformations::Move::Move(const Point3D<double>& offset)
-    : ITransformation() {
-  this->reset_matrix();
+DimensionalTransformations::Translation::Translation(const Point3D<double>& offset) : ITransformation() {
+  ResetMatrix();
+
   (*this)[0][3] = offset.x();
   (*this)[1][3] = offset.y();
   (*this)[2][3] = offset.z();
 }
 
-DimensionalTransformations::Scale::Scale(double scale_factor) {
-  this->reset_matrix();
-  (*this)[0][0] = scale_factor;
-  (*this)[1][1] = scale_factor;
-  (*this)[2][2] = scale_factor;
+DimensionalTransformations::Scaling::Scaling(double factor) {
+  ResetMatrix();
+
+  (*this)[0][0] = factor;
+  (*this)[1][1] = factor;
+  (*this)[2][2] = factor;
 }

@@ -1,19 +1,17 @@
 #ifndef LAB04_OBJECTS_COMPOSITE_OBJECT_HPP_
 #define LAB04_OBJECTS_COMPOSITE_OBJECT_HPP_
 
-#include "transformations/base_transformations.hpp"
-#include "exceptions/scene_exceptions.hpp"
-#include "containers/vector/vector.hpp"
+#include "transformations/base_transformation.hpp"
 #include "objects/model.hpp"
 #include "objects/camera.hpp"
 
 class CompositeObject : public SceneObject {
  public:
   CompositeObject();
-  ~CompositeObject() override = default;
+
+  bool Visible() const override;
 
   void Transform(BaseTransformation& transformation);
-  bool Visible() const override;
 
   void AddModel(SceneObject* object);
   void RemoveModel(std::size_t index);

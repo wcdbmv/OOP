@@ -52,64 +52,64 @@ void MainWindow::keyPressEvent(QKeyEvent* e) {
 
     } else if (e->key() == Qt::Key_I) {
       Point3D<double> point(0, OFFSET, 0);
-      Commands::Move comm(point, model_current_index);
+      Commands::TranslateModel comm(point, model_current_index);
       this->command_controller.ExecuteCommand(comm);
 
     } else if (e->key() == Qt::Key_J) {
       Point3D<double> point(-OFFSET, 0, 0);
-      Commands::Move comm(point, model_current_index);
+      Commands::TranslateModel comm(point, model_current_index);
       this->command_controller.ExecuteCommand(comm);
 
     } else if (e->key() == Qt::Key_K) {
       Point3D<double> point(0, -OFFSET, 0);
-      Commands::Move comm(point, model_current_index);
+      Commands::TranslateModel comm(point, model_current_index);
       this->command_controller.ExecuteCommand(comm);
 
     } else if (e->key() == Qt::Key_L) {
       Point3D<double> point(OFFSET, 0, 0);
-      Commands::Move comm(point, model_current_index);
+      Commands::TranslateModel comm(point, model_current_index);
       this->command_controller.ExecuteCommand(comm);
 
     } else if (e->key() == Qt::Key_M) {
       Point3D<double> point(0, 0, OFFSET);
-      Commands::Move comm(point, model_current_index);
+      Commands::TranslateModel comm(point, model_current_index);
       this->command_controller.ExecuteCommand(comm);
 
     }  else if (e->key() == Qt::Key_N) {
       Point3D<double> point(0, 0, -OFFSET);
-      Commands::Move comm(point, model_current_index);
+      Commands::TranslateModel comm(point, model_current_index);
       this->command_controller.ExecuteCommand(comm);
 
     }  else if (e->key() == Qt::Key_Plus) {
-      Commands::Scale comm(SCALE_FACTOR, model_current_index);
+      Commands::ScaleModel comm(SCALE_FACTOR, model_current_index);
       this->command_controller.ExecuteCommand(comm);
 
     } else if (e->key() == Qt::Key_Minus) {
-      Commands::Scale comm(1 / SCALE_FACTOR, model_current_index);
+      Commands::ScaleModel comm(1 / SCALE_FACTOR, model_current_index);
       this->command_controller.ExecuteCommand(comm);
 
     } else if (e->key() == Qt::Key_H) {
-      Commands::Yaw comm(ANGLE, camera_current_index);
+      Commands::YawCamera comm(ANGLE, camera_current_index);
       this->command_controller.ExecuteCommand(comm);
 
     } else if (e->key() == Qt::Key_F) {
-      Commands::Yaw comm(-ANGLE, camera_current_index);
+      Commands::YawCamera comm(-ANGLE, camera_current_index);
       this->command_controller.ExecuteCommand(comm);
 
     } else if (e->key() == Qt::Key_T) {
-      Commands::Pitch comm(-ANGLE, camera_current_index);
+      Commands::PitchCamera comm(-ANGLE, camera_current_index);
       this->command_controller.ExecuteCommand(comm);
 
     } else if (e->key() == Qt::Key_G) {
-      Commands::Pitch comm(ANGLE, camera_current_index);
+      Commands::PitchCamera comm(ANGLE, camera_current_index);
       this->command_controller.ExecuteCommand(comm);
 
     } else if (e->key() == Qt::Key_B) {
-      Commands::Roll comm(-ANGLE, camera_current_index);
+      Commands::RollCamera comm(-ANGLE, camera_current_index);
       this->command_controller.ExecuteCommand(comm);
 
     } else if (e->key() == Qt::Key_V) {
-      Commands::Roll comm(ANGLE, camera_current_index);
+      Commands::RollCamera comm(ANGLE, camera_current_index);
       this->command_controller.ExecuteCommand(comm);
     }
 

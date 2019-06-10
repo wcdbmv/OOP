@@ -11,7 +11,7 @@ class ICommand {
   virtual void Execute(Camera*&) = 0;
 };
 
-namespace CameraDimensionalTransformations {
+namespace CameraCommands {
 
 class Yaw : public ICommand {
  public:
@@ -46,6 +46,6 @@ class Roll : public ICommand {
   double angle_;
 };
 
-}  // namespace CameraDimensionalTransformations
+}  // namespace CameraCommands
 
 #endif  // LAB04_TRANSFORMATIONS_COMMAND_INTERFACE_HPP_

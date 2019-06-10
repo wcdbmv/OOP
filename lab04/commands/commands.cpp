@@ -42,12 +42,12 @@ void RemoveCamera::Execute(Controller*& controller) {
   controller->RemoveCamera(camera_index_);
 }
 
-Move::Move(const Point3D<double>& point, ssize_t model_index)
+TranslateModel::TranslateModel(const Point3D<double>& point, ssize_t model_index)
     : point_(point), model_index_(model_index) {}
 
-void Move::Execute(Controller*& controller) {
-  DimensionalTransformations::Move move(point_);
-  ModelTransformation transformation(move);
+void TranslateModel::Execute(Controller*& controller) {
+  DimensionalTransformations::Translation move(point_);
+  Transformation transformation(move);
   controller->TransformModel(transformation, model_index_);
 }
 
@@ -56,7 +56,7 @@ RotateModelOX::RotateModelOX(double angle, ssize_t model_index)
 
 void RotateModelOX::Execute(Controller*& controller) {
   DimensionalTransformations::RotationOX rotation(angle_);
-  ModelTransformation transformation(rotation);
+  Transformation transformation(rotation);
   controller->TransformModel(transformation, model_index_);
 }
 
@@ -65,7 +65,7 @@ RotateModelOY::RotateModelOY(double angle, ssize_t model_index)
 
 void RotateModelOY::Execute(Controller*& controller) {
   DimensionalTransformations::RotationOY rotation(angle_);
-  ModelTransformation transformation(rotation);
+  Transformation transformation(rotation);
   controller->TransformModel(transformation, model_index_);
 }
 
@@ -74,16 +74,16 @@ RotateModelOZ::RotateModelOZ(double angle, ssize_t model_index)
 
 void RotateModelOZ::Execute(Controller*& controller) {
   DimensionalTransformations::RotationOZ rotation(angle_);
-  ModelTransformation transformation(rotation);
+  Transformation transformation(rotation);
   controller->TransformModel(transformation, model_index_);
 }
 
-Scale::Scale(double scale_factor, ssize_t model_index)
+ScaleModel::ScaleModel(double scale_factor, ssize_t model_index)
     : scale_factor_(scale_factor), model_index_(model_index) {}
 
-void Scale::Execute(Controller*& controller) {
-  DimensionalTransformations::Scale scale(scale_factor_);
-  ModelTransformation transformation(scale);
+void ScaleModel::Execute(Controller*& controller) {
+  DimensionalTransformations::Scaling scale(scale_factor_);
+  Transformation transformation(scale);
   controller->TransformModel(transformation, model_index_);
 }
 
@@ -94,27 +94,27 @@ void Draw::Execute(Controller*& controller) {
   controller->DrawScene(drawer_, camera_index_);
 }
 
-Yaw::Yaw(double angle, std::size_t index)
+YawCamera::YawCamera(double angle, std::size_t index)
     : angle_(angle), camera_index_(index) {}
 
-void Yaw::Execute(Controller*& controller) {
-  CameraDimensionalTransformations::Yaw yaw(angle_);
+void YawCamera::Execute(Controller*& controller) {
+  CameraCommands::Yaw yaw(angle_);
   controller->TransformCamera(yaw, camera_index_);
 }
 
-Pitch::Pitch(double angle, std::size_t index)
+PitchCamera::PitchCamera(double angle, std::size_t index)
     : angle_(angle), camera_index_(index) {}
 
-void Pitch::Execute(Controller*& controller) {
-  CameraDimensionalTransformations::Pitch pitch(angle_);
+void PitchCamera::Execute(Controller*& controller) {
+  CameraCommands::Pitch pitch(angle_);
   controller->TransformCamera(pitch, camera_index_);
 }
 
-Roll::Roll(double angle, std::size_t index)
+RollCamera::RollCamera(double angle, std::size_t index)
     : angle_(angle), camera_index_(index) {}
 
-void Roll::Execute(Controller*& controller) {
-  CameraDimensionalTransformations::Roll roll(angle_);
+void RollCamera::Execute(Controller*& controller) {
+  CameraCommands::Roll roll(angle_);
   controller->TransformCamera(roll, camera_index_);
 }
 

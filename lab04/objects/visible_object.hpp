@@ -6,7 +6,6 @@
 class VisibleObject : public SceneObject {
  public:
   explicit VisibleObject() = default;
-  VisibleObject(VisibleObject&) = delete;
   VisibleObject(const VisibleObject&) = delete;
   ~VisibleObject() override = default;
 

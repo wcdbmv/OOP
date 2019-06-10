@@ -1,9 +1,9 @@
-#include "model_transformations.hpp"
+#include "transformation.hpp"
 
-ModelTransformation::ModelTransformation(ITransformation& interface)
+Transformation::Transformation(ITransformation& interface)
     : matrix_(interface) {}
 
-void ModelTransformation::Transform(SceneObject*& object) {
+void Transformation::Transform(SceneObject*& object) {
   if (object->Visible()) {
     Model* p_model = reinterpret_cast<Model*>(object);
 

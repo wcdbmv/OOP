@@ -8,7 +8,6 @@
 class ModelView {
  public:
   ModelView() = default;
-  ModelView(ModelView&) = delete;
   ModelView(const ModelView&) = delete;
   ~ModelView() = default;
 

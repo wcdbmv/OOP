@@ -41,4 +41,4 @@ class Controller {
   ModelView model_view_;
 };
 
-#endif // LAB04_CONTROLLER_CONTROLLER_HPP_
+#endif  // LAB04_CONTROLLER_CONTROLLER_HPP_

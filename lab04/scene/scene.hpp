@@ -6,7 +6,6 @@
 class Scene {
  public:
   Scene() = default;
-  ~Scene() = default;
 
   void Transform(BaseTransformation& transformation);
 
@@ -19,9 +18,7 @@ class Scene {
   SceneObject*& get_model(std::size_t);
   SceneObject*& get_camera(std::size_t);
 
-  friend class ModelManager;
   friend class DrawManager;
-  friend class CameraManager;
 
  private:
   CompositeObject object_;

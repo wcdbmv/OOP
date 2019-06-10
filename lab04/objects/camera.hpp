@@ -2,7 +2,6 @@
 #define LAB04_OBJECTS_CAMERA_HPP_
 
 #include "invisible_object.hpp"
-#include "math3d/vector4d.hpp"
 #include "math3d/point3d.hpp"
 #include "math3d/matrix4x4.hpp"
 

@@ -13,6 +13,7 @@ class Uploader : public BaseUploader {
   void open() override;
   bool is_open() const override;
   void close() override;
+
   const Model get_model() override;
 
  private:

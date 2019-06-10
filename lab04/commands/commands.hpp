@@ -3,7 +3,7 @@
 
 #include "controller/controller.hpp"
 #include "transformations/dimensional_transformations.hpp"
-#include "transformations/model_transformations.hpp"
+#include "transformations/transformation.hpp"
 #include "gui/drawer.hpp"
 
 class Command {
@@ -87,12 +87,12 @@ class RemoveCamera : public Command {
   std::size_t camera_index_;
 };
 
-class Move : public Command {
+class TranslateModel : public Command {
  public:
-  Move(const Point3D<double>& point, ssize_t model_index);
-  Move(Move&) = delete;
-  Move(const Move&) = delete;
-  ~Move() = default;
+  TranslateModel(const Point3D<double>& point, ssize_t model_index);
+  TranslateModel(TranslateModel&) = delete;
+  TranslateModel(const TranslateModel&) = delete;
+  ~TranslateModel() = default;
 
   void Execute(Controller*& controller) override;
 
@@ -140,11 +140,11 @@ class RotateModelOZ : public Command {
   ssize_t model_index_;
 };
 
-class Scale : public Command {
+class ScaleModel : public Command {
  public:
-  Scale(double scale_factor, ssize_t model_index);
-  Scale(const Scale&) = delete;
-  ~Scale() = default;
+  ScaleModel(double scale_factor, ssize_t model_index);
+  ScaleModel(const ScaleModel&) = delete;
+  ~ScaleModel() = default;
 
   void Execute(Controller*& controller) override;
 
@@ -166,11 +166,11 @@ class Draw : public Command {
   ssize_t camera_index_;
 };
 
-class Yaw : public Command {
+class YawCamera : public Command {
  public:
-  Yaw(double angle, std::size_t index);
-  Yaw(const Yaw&) = delete;
-  ~Yaw() = default;
+  YawCamera(double angle, std::size_t index);
+  YawCamera(const YawCamera&) = delete;
+  ~YawCamera() = default;
 
   void Execute(Controller*& controller) override;
 
@@ -179,11 +179,11 @@ class Yaw : public Command {
   std::size_t camera_index_;
 };
 
-class Pitch : public Command {
+class PitchCamera : public Command {
  public:
-  Pitch(double angle, std::size_t index);
-  Pitch(const Pitch&) = delete;
-  ~Pitch() = default;
+  PitchCamera(double angle, std::size_t index);
+  PitchCamera(const PitchCamera&) = delete;
+  ~PitchCamera() = default;
 
   void Execute(Controller*& controller) override;
 
@@ -192,11 +192,11 @@ class Pitch : public Command {
   std::size_t camera_index_;
 };
 
-class Roll : public Command {
+class RollCamera : public Command {
  public:
-  Roll(double angle, std::size_t index);
-  Roll(const Roll&) = delete;
-  ~Roll() = default;
+  RollCamera(double angle, std::size_t index);
+  RollCamera(const RollCamera&) = delete;
+  ~RollCamera() = default;
 
   void Execute(Controller*& controller) override;
 

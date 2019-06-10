@@ -10,7 +10,7 @@ class ITransformation : public Matrix4x4<double> {
   ~ITransformation() override = default;
 
  protected:
-  void reset_matrix();
+  void ResetMatrix();
 };
 
 #endif  // LAB04_TRANSFORMATIONS_TRANSFORMATION_INTERFACE_HPP_

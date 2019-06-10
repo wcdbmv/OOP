@@ -4,7 +4,6 @@
 class SceneObject {
  public:
   explicit SceneObject() = default;
-  SceneObject(SceneObject&) = delete;
   SceneObject(const SceneObject&) = delete;
   virtual ~SceneObject() = default;
 

@@ -1,11 +1,13 @@
 #include "composite_object.hpp"
 
+#include "exceptions/scene_exceptions.hpp"
+
 CompositeObject::CompositeObject() {
   AddCamera(new Camera());
 }
 
 void CompositeObject::Transform(BaseTransformation &transformation) {
-  for (auto& scene_object : scene_objects_)
+  for (auto& scene_object: scene_objects_)
     transformation.Transform(scene_object);
 }
 

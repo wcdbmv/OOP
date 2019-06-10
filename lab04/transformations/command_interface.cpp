@@ -1,6 +1,6 @@
 #include "command_interface.hpp"
 
-namespace CameraDimensionalTransformations {
+namespace CameraCommands {
 
 Yaw::Yaw(double angle)
     : angle_(angle) {}
