@@ -6,19 +6,19 @@
 #include "point3d.hpp"
 
 template <typename T>
-class Matrix4x4 : public Matrix<T> {
+class Matrix4x4 : public Matrix<4, T> {
   static_assert(std::is_arithmetic<T>::value, "Type must be arithmetic!");
 
  public:
   Matrix4x4();
-  Matrix4x4(std::initializer_list<T>);
+  Matrix4x4(std::initializer_list<Vector<4, T>>);
   Matrix4x4(const Matrix4x4&);
   Matrix4x4(Matrix4x4&&) noexcept;
   ~Matrix4x4() = default;
 
   Matrix4x4& operator=(const Matrix4x4&);
   Matrix4x4& operator=(Matrix4x4&&) noexcept;
-  Matrix4x4& operator=(std::initializer_list<T>);
+  Matrix4x4& operator=(std::initializer_list<Vector<4, T>>);
 
   Vector4D<T> operator*(const Vector4D<T>&) const;
   Matrix4x4 operator*(const T&) const;

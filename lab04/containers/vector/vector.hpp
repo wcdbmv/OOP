@@ -1,48 +1,50 @@
 #ifndef LAB04_CONTAINERS_VECTOR_VECTOR_HPP_
 #define LAB04_CONTAINERS_VECTOR_VECTOR_HPP_
 
-#include <cstring>
+#include <initializer_list>
+#include <istream>
+#include <ostream>
 
-#include "base_vector.hpp"
-
-template <typename T>
-class Vector : public BaseVector<T> {
+template <std::size_t Size, typename T>
+class Vector {
  public:
-  using Base = BaseVector<T>;
-  using value_type = typename Base::value_type;
-  using reference = typename Base::reference;
-  using const_reference = typename Base::const_reference;
+  using value_type = T;
+  using reference = T&;
+  using const_reference = const T&;
 
-  using iterator = typename Base::iterator;
-  using const_iterator = typename Base::const_iterator;
-  using size_type = typename Base::size_type;
+  using iterator = value_type*;
+  using const_iterator = const value_type*;
+  using size_type = std::size_t;
 
  public:
-  explicit Vector();
-  explicit Vector(size_type);
-  explicit Vector(size_type, const_reference);
-  explicit Vector(const_iterator, const_iterator);
-  Vector(std::initializer_list<T>);
-  Vector(size_type, std::initializer_list<T>);
-  Vector(const Vector&);
-  Vector(Vector&&) noexcept;
-  virtual Vector& operator=(const Vector&);
-  Vector& operator=(Vector&&) noexcept;
+  constexpr Vector() noexcept;
+  constexpr explicit Vector(const value_type& value) noexcept;
+  constexpr Vector(std::initializer_list<value_type> list) noexcept;
+  template <std::size_t OtherSize, typename U>
+  constexpr explicit Vector(const Vector<OtherSize, U>& other) noexcept;
 
-  std::size_t max_size() const;
-  void reserve(std::size_t);
-  void shrink_to_fit();
+  constexpr void fill(const value_type& value);
 
-  void erase(std::size_t);
-  void push_back(const T&);
-  void push_back(T&&);
-  void pop_back();
+  constexpr iterator begin();
+  constexpr const_iterator begin() const;
+  constexpr iterator end();
+  constexpr const_iterator end() const;
 
- private:
-  static constexpr std::size_t GROW_COEF = 2;
+  constexpr size_type size() const;
 
-  void GrowIfNeed();
+  constexpr reference operator[](size_type index);
+  constexpr const_reference operator[](size_type index) const;
+  reference at(size_type index);
+  const_reference at(size_type index) const;
+
+ protected:
+  T data_[Size ? Size : 1];
 };
+
+template <std::size_t Size, typename T>
+std::istream& operator>>(std::istream& is, Vector<Size, T>& vector);
+template <std::size_t Size, typename T>
+std::ostream& operator<<(std::ostream& os, const Vector<Size, T>& vector);
 
 #include "detail/vector.hpp"
 

@@ -1,51 +1,28 @@
 #ifndef LAB04_CONTAINERS_MATRIX_MATRIX_HPP_
 #define LAB04_CONTAINERS_MATRIX_MATRIX_HPP_
 
-#include "base_matrix.hpp"
+#include "rectangular_matrix.hpp"
 
-template <typename T>
-class Matrix : public BaseMatrix<T> {
+template <std::size_t size, typename T>
+class Matrix : public RectangularMatrix<size, size, T> {
  public:
-  using Base = BaseMatrix<T>;
+  using Base = RectangularMatrix<size, size, T>;
+  using value_type = typename Base::value_type;
+  using reference = typename Base::reference;
+  using const_reference = typename Base::const_reference;
+
   using iterator = typename Base::iterator;
-  using const_iterator = typename Base ::const_iterator;
+  using const_iterator = typename Base::const_iterator;
+  using size_type = typename Base::size_type;
 
  public:
-  explicit Matrix(std::size_t, std::size_t);
-  explicit Matrix(std::size_t, std::size_t, const T&);
-  Matrix(std::size_t, std::size_t, const_iterator, const_iterator);
-  Matrix(std::size_t, std::size_t, std::initializer_list<T>);
-  Matrix(const Matrix&);
-  Matrix(Matrix&&) noexcept;
-  virtual ~Matrix() = default;
-  Matrix& operator=(const Matrix&);
-  Matrix& operator=(Matrix&&) noexcept;
-  virtual Matrix& operator=(std::initializer_list<T>);
+  constexpr static Matrix Identity();
 
-  Matrix& operator+=(const Matrix&);
-  Matrix& operator+=(const T&);
-  Matrix& operator-=(const Matrix&);
-  Matrix& operator-=(const T&);
-  Matrix& operator*=(const Matrix&);
-  Matrix& operator*=(const T&);
-  Matrix& operator/=(const T&);
+  constexpr Matrix() noexcept = default;
+  constexpr explicit Matrix(T value) noexcept;
+  constexpr Matrix(std::initializer_list<Vector<size, T>> list) noexcept;
 };
 
-template <typename T>
-Matrix<T> operator+(const Matrix<T>&, const Matrix<T>&);
-template <typename T>
-Matrix<T> operator+(const Matrix<T>&, const T&);
-template <typename T>
-Matrix<T> operator-(const Matrix<T>&, const Matrix<T>&);
-template <typename T>
-Matrix<T> operator-(const Matrix<T>&, const T&);
-template <typename T>
-Matrix<T> operator*(const Matrix<T>&, const Matrix<T>&);
-template <typename T>
-Matrix<T> operator*(const Matrix<T>&, const T&);
-template <typename T>
-Matrix<T> operator/(const Matrix<T>&, const T&);
-
-#include "detail/matrix4x4.hpp"
+#include "detail/matrix.hpp"
 
 #endif  // LAB04_CONTAINERS_MATRIX_MATRIX_HPP_

@@ -51,8 +51,8 @@ constexpr const T& Point3D<T>::z() const {
 }
 
 template <typename T>
-Vector<T> Point3D<T>::ToVector4D() const {
-  return Vector<T>({x_, y_, z_, 1});
+Vector<4, T> Point3D<T>::ToVector4D() const {
+  return Vector<4, T>({x_, y_, z_, 1});
 }
 
 template <typename T>

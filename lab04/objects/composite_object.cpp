@@ -34,7 +34,7 @@ void CompositeObject::RemoveModel(std::size_t index) {
       }
     }
 
-    scene_objects_.erase(i);
+    scene_objects_.erase(scene_objects_.begin() + i);
     --n_models_;
 
   } else {
@@ -61,7 +61,7 @@ void CompositeObject::RemoveCamera(std::size_t index) {
       }
     }
 
-    scene_objects_.erase(i);
+    scene_objects_.erase(scene_objects_.begin() + i);
     --n_cameras_;
 
   } else {

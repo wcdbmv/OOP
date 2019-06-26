@@ -34,11 +34,11 @@ const Model Uploader::get_model() {
   std::size_t n_vertices, n_edges;
   file_ >> n_vertices >> n_edges;
 
-  Vector<Point3D<double>> vertices(n_vertices);
+  std::vector<Point3D<double>> vertices(n_vertices);
   for (auto& vertex: vertices)
     file_ >> vertex;
 
-  Vector<Edge> edges(n_edges);
+  std::vector<Edge> edges(n_edges);
   for (auto& edge: edges)
     file_ >> edge;
 

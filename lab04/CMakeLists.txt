@@ -43,13 +43,9 @@ set(SOURCES
 
 set(HEADERS
         commands/commands.hpp
-        containers/iterator/const_iterator.hpp
-        containers/iterator/iterator.hpp
-        containers/iterator/base_iterator.hpp
         containers/matrix/matrix.hpp
-        containers/matrix/base_matrix.hpp
+        containers/matrix/rectangular_matrix.hpp
         containers/vector/vector.hpp
-        containers/vector/base_vector.hpp
         controller/controller.hpp
         exceptions/base_exception.hpp
         exceptions/container_exceptions.hpp

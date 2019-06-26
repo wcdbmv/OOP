@@ -7,7 +7,6 @@ class ITransformation : public Matrix4x4<double> {
  public:
   ITransformation();
   ITransformation(const ITransformation&) = delete;
-  ~ITransformation() override = default;
 
  protected:
   void ResetMatrix();

@@ -78,10 +78,10 @@ Matrix4x4<double> Camera::get_view_matrix() {
   const double z = -Vector4D<double>::Dot(look_, position_);
 
   Matrix4x4<double> tmp = {
-    right_[0], up_[0], look_[0], 0,
-    right_[1], up_[1], look_[1], 0,
-    right_[2], up_[2], look_[2], 0,
-    x, y, z, 1
+    {right_[0], up_[0], look_[0], 0},
+    {right_[1], up_[1], look_[1], 0},
+    {right_[2], up_[2], look_[2], 0},
+    {x, y, z, 1}
   };
 
   return tmp;

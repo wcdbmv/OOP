@@ -27,7 +27,7 @@ class CompositeObject : public SceneObject {
  private:
   std::size_t n_cameras_;
   std::size_t n_models_;
-  Vector<SceneObject*> scene_objects_;
+  std::vector<SceneObject*> scene_objects_;
 };
 
 #endif  // LAB04_OBJECTS_COMPOSITE_OBJECT_HPP_

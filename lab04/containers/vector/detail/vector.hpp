@@ -1,92 +1,93 @@
-template <typename T>
-Vector<T>::Vector()
-    : Base() {}
+#include <experimental/iterator>
 
-template <typename T>
-Vector<T>::Vector(size_type size)
-    : Base(size) {}
+template <std::size_t Size, typename T>
+constexpr Vector<Size, T>::Vector() noexcept : data_{} {}
 
-template <typename T>
-Vector<T>::Vector(size_type size, const_reference value)
-    : Base(size, value) {}
-
-template <typename T>
-Vector<T>::Vector(const_iterator first, const_iterator last)
-    : Base(first, last) {}
-
-template <typename T>
-Vector<T>::Vector(std::initializer_list<T> list)
-    : Base(list) {}
-
-template <typename T>
-Vector<T>::Vector(size_type size, std::initializer_list<T> list)
-    : Base(size, list) {}
-
-template <typename T>
-Vector<T>::Vector(const Vector<T>& other)
-    : Base(other) {}
-
-template <typename T>
-Vector<T>::Vector(Vector<T>&& other) noexcept
-    : Base(other) {}
-
-template <typename T>
-Vector<T>& Vector<T>::operator=(const Vector<T>& rhs) {
-  Base::operator=(rhs);
-  return *this;
+template <std::size_t Size, typename T>
+constexpr Vector<Size, T>::Vector(const value_type& value) noexcept : data_{} {
+  fill(value);
 }
 
-template <typename T>
-Vector<T>& Vector<T>::operator=(Vector<T>&& rhs) noexcept {
-  Base::operator=(rhs);
-  return *this;
+template <std::size_t Size, typename T>
+constexpr Vector<Size, T>::Vector(std::initializer_list<value_type> list) noexcept : data_{} {
+  // std::copy_n(list.begin(), min(size(), list.size()), begin()); — non-constexpr
+  auto i = begin();
+  for (auto j = list.begin(); i != end() && j != list.end(); ++i, ++j)
+    *i = *j;
 }
 
-template <typename T>
-std::size_t Vector<T>::max_size() const {
-  return Base::capacity();
+template <std::size_t Size, typename T> template <std::size_t OtherSize, typename U>
+constexpr Vector<Size, T>::Vector(const Vector<OtherSize, U>& other) noexcept : data_{} {
+  // std::copy_n(other.begin(), min(size(), other.size()), begin()); — non-constexpr
+  for (std::size_t i = 0; i != min(size(), other.size()); ++i)
+    data_[i] = other[i];
 }
 
-template <typename T>
-void Vector<T>::reserve(std::size_t size) {
-  if (size > Base::capacity())
-    Base::Reallocate(size);
+template <std::size_t Size, typename T>
+constexpr void Vector<Size, T>::fill(const value_type& value) {
+  // std::fill_n(begin(), size(), value); — non-constexpr
+  for (std::size_t i = 0; i != size(); ++i)
+    data_[i] = value;
 }
 
-template <typename T>
-void Vector<T>::shrink_to_fit() {
-  if (Base::size() != Base::capacity())
-    Base::Reallocate(Base::size());
+template <std::size_t Size, typename T>
+constexpr auto Vector<Size, T>::begin() -> iterator {
+  return iterator(std::addressof(data_[0]));
 }
 
-template <typename T>
-void Vector<T>::erase(std::size_t index)  {
-  T* mem_flag = Base::data_ + index;
-  std::memmove(mem_flag, mem_flag + 1, (Base::size() - (mem_flag - Base::data_) - 1) * sizeof(T));
-  --Base::size_;
+template <std::size_t Size, typename T>
+constexpr auto Vector<Size, T>::begin() const -> const_iterator {
+  return const_iterator(std::addressof(data_[0]));
 }
 
-template <typename T>
-void Vector<T>::GrowIfNeed() {
-  if (Base::size() == Base::capacity())
-    Base::Reallocate(Base::capacity() * GROW_COEF);
+template <std::size_t Size, typename T>
+constexpr auto Vector<Size, T>::end() -> iterator {
+  return iterator(std::addressof(data_[Size]));
 }
 
-template <typename T>
-void Vector<T>::push_back(const T& value) {
-  GrowIfNeed();
-
-  (*this)[Base::size_++] = value;
+template <std::size_t Size, typename T>
+constexpr auto Vector<Size, T>::end() const -> const_iterator {
+  return const_iterator(std::addressof(data_[Size]));
 }
 
-template <typename T>
-void Vector<T>::push_back(T&& value) {
-  GrowIfNeed();
-
-  (*this)[Base::size_++] = std::move(value);
+template <std::size_t Size, typename T>
+constexpr auto Vector<Size, T>::size() const -> size_type {
+  return Size;
 }
 
-template <typename T>
-void Vector<T>::pop_back() {
-  --Base::size_;
+template <std::size_t Size, typename T>
+constexpr auto Vector<Size, T>::operator[](size_type index) -> reference {
+  return data_[index];
+}
+
+template <std::size_t Size, typename T>
+constexpr auto Vector<Size, T>::operator[](size_type index) const -> const_reference {
+  return data_[index];
+}
+
+template <std::size_t Size, typename T>
+auto Vector<Size, T>::at(size_type index) -> reference {
+  if (index >= size())
+    throw std::out_of_range("Vector::at");
+  return data_[index];
+}
+
+template <std::size_t Size, typename T>
+auto Vector<Size, T>::at(size_type index) const -> const_reference {
+  if (index >= size())
+    throw std::out_of_range("Vector::at");
+  return data_[index];
+}
+
+template <std::size_t Size, typename T>
+std::istream& operator>>(std::istream& is, Vector<Size, T>& vector) {
+  for (auto& it: vector)
+    is >> it;
+  return is;
+}
+
+template <std::size_t Size, typename T>
+std::ostream& operator<<(std::ostream& os, const Vector<Size, T>& vector) {
+  std::copy(vector.begin(), vector.end(), std::experimental::make_ostream_joiner(os, " "));
+  return os;
 }

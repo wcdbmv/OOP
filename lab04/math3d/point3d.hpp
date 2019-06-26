@@ -23,7 +23,7 @@ class Point3D {
   constexpr T& z();
   constexpr const T& z() const;
 
-  Vector<T> ToVector4D() const;
+  Vector<4, T> ToVector4D() const;
 
   constexpr Point3D& operator+=(const Point3D&);
   constexpr Point3D& operator+=(const T&);

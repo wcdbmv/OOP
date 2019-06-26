@@ -6,7 +6,7 @@
 #include "containers/vector/vector.hpp"
 
 template <typename T>
-class Vector4D : public Vector<T> {
+class Vector4D : public Vector<4, T> {
   static_assert(std::is_arithmetic<T>::value, "Type must be arithmetic");
 
  public:
@@ -16,7 +16,7 @@ class Vector4D : public Vector<T> {
   Vector4D(const Vector4D&);
   Vector4D(Vector4D&&) noexcept;
 
-  Vector4D& operator=(const Vector<T>&);
+  Vector4D& operator=(const Vector<4, T>&);
   Vector4D& operator=(Vector4D&&) noexcept;
 
   T Length();

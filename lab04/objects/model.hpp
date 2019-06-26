@@ -2,6 +2,7 @@
 #define LAB04_OBJECTS_MODEL_HPP_
 
 #include <string>
+#include <vector>
 
 #include "visible_object.hpp"
 #include "containers/vector/vector.hpp"
@@ -11,7 +12,7 @@
 class Model : public VisibleObject {
  public:
   explicit Model() = default;
-  explicit Model(std::string, Vector<Point3D<double>>, Vector<Edge>);
+  explicit Model(std::string, std::vector<Point3D<double>>, std::vector<Edge>);
   Model(const Model&);
   Model(Model&&) noexcept;
 
@@ -23,8 +24,8 @@ class Model : public VisibleObject {
 
  private:
   std::string name_;
-  Vector<Point3D<double>> vertices_;
-  Vector<Edge> edges_;
+  std::vector<Point3D<double>> vertices_;
+  std::vector<Edge> edges_;
 };
 
 #endif  // LAB04_OBJECTS_MODEL_HPP_

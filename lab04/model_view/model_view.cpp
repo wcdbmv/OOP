@@ -12,7 +12,7 @@ void ModelView::CheckOutOfRange(std::size_t index) const {
 void ModelView::RemoveView(std::size_t index) {
   CheckOutOfRange(index);
 
-  models_.erase(index);
+  models_.erase(models_.begin() + index);
 }
 
 const Model& ModelView::operator[](std::size_t index) const {

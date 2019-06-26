@@ -1,1 +1,1 @@
-![uml](uml.png)
+![uml](uml/uml.png)

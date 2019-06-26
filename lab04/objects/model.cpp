@@ -1,6 +1,6 @@
 #include "model.hpp"
 
-Model::Model(std::string name, Vector<Point3D<double>> vertices, Vector<Edge> edges)
+Model::Model(std::string name, std::vector<Point3D<double>> vertices, std::vector<Edge> edges)
     : name_(std::move(name)), vertices_(std::move(vertices)), edges_(std::move(edges)) {}
 
 Model::Model(const Model& other)
